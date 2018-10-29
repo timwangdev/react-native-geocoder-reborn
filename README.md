@@ -1,29 +1,23 @@
 
 
-# react-native-geocoder
+# react-native-geocoder-reborn
 
-[![CircleCI](https://circleci.com/gh/devfd/react-native-geocoder/tree/master.svg?style=shield)](https://circleci.com/gh/devfd/react-native-geocoder/tree/master)
+[![CircleCI](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master.svg?style=shield)](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master)
 
-geocoding services for react native
-
+Geocoding services for react native
 
 ## Version table
 | Geocoder Version | RN        |
 | ------- |:----------|
-| >=0.6.0   | >= 0.56.0 |
-| >=0.5.0   | >= 0.47.0 |
-| >=0.4.6   | >= 0.40.0 |
-| <0.4.5    | <0.40.0   |
-
-
+| >=0.7.0   | >= 0.56.0 |
 
 ## Install
 ```
-yarn add react-native-geocoder
+yarn add react-native-geocoder-reborn
 ```
 or
 ```
-npm install --save react-native-geocoder
+npm install --save react-native-geocoder-reborn
 ```
 
 ## Link
@@ -31,7 +25,7 @@ npm install --save react-native-geocoder
 ### Automatically
 Run
 ```
-react-native link react-native-geocoder
+react-native link react-native-geocoder-reborn
 ```
 
 ### Manually
@@ -40,17 +34,17 @@ If automatic linking fails you can follow the manual installation steps
 #### iOS
 
 1. In the XCode's "Project navigator", right click on Libraries folder under your project ➜ `Add Files to <...>`
-2. Go to `node_modules` ➜ `react-native-geocoder` and add `ios/RNGeocoder.xcodeproj` file
+2. Go to `node_modules` ➜ `react-native-geocoder-reborn` and add `ios/RNGeocoder.xcodeproj` file
 3. Add libRNGeocoder.a to "Build Phases" -> "Link Binary With Libraries"
 
 #### Android
 
-1. In `android/setting.gradle`
+1. In `android/setting.gradle` add:
 
 ```gradle
 ...
-include ':react-native-geocoder', ':app'
-project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder/android')
+include ':react-native-geocoder-reborn', ':app'
+project(':react-native-geocoder-reborn').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder-reborn/android')
 ```
 
 3. In `android/app/build.gradle`
@@ -59,7 +53,7 @@ project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, 
 ...
 dependencies {
     ...
-    implementation project(':react-native-geocoder')
+    implementation project(':react-native-geocoder-reborn')
 }
 ```
 
@@ -70,7 +64,6 @@ import com.devfd.RNGeocoder.RNGeocoderPackage; // <--- import
 
 public class MainActivity extends ReactActivity {
   ......
-
   @Override
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
@@ -78,16 +71,13 @@ public class MainActivity extends ReactActivity {
             new RNGeocoderPackage()     // <------ add this
         ); 
   }
-
   ......
-
 }
-
 ```
 
 ## Usage
 ```
-import Geocoder from 'react-native-geocoder';
+import Geocoder from 'react-native-geocoder-reborn';
 
 // Position Geocoding
 var NY = {
@@ -112,7 +102,7 @@ Geocoder.geocodeAddress('New York').then(res => {
 Geocoding services might not be included in some Android devices (Kindle, some 4.1 devices, non-google devices). For those special cases the lib can fallback to the [online google maps geocoding service](https://developers.google.com/maps/documentation/geocoding/intro#Geocoding)
 
 ```js
-import Geocoder from 'react-native-geocoder';
+import Geocoder from 'react-native-geocoder-reborn';
 // simply add your google key
 Geocoder.fallbackToGoogle(MY_KEY);
 
@@ -123,12 +113,10 @@ let ret = await Geocoder.geocodePosition({lat, lng})
 ```
 
 ## With async / await
-```
+```js
 try {
-
     const res = await Geocoder.geocodePosition(NY);
     ...
-
     const res = await Geocoder.geocodeAddress('London');
     ...
 }
