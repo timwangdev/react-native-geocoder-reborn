@@ -10,23 +10,41 @@ geocoding services for react native
 ## Version table
 | Geocoder Version | RN        |
 | ------- |:----------|
+| >=0.6.0   | >= 0.56.0 |
 | >=0.5.0   | >= 0.47.0 |
 | >=0.4.6   | >= 0.40.0 |
-| <0.4.5   | <0.40.0   |
+| <0.4.5    | <0.40.0   |
 
 
 
 ## Install
 ```
+yarn add react-native-geocoder
+```
+or
+```
 npm install --save react-native-geocoder
 ```
-## iOS
+
+## Link
+
+### Automatically
+Run
+```
+react-native link react-native-geocoder
+```
+
+### Manually
+If automatic linking fails you can follow the manual installation steps
+
+#### iOS
 
 1. In the XCode's "Project navigator", right click on Libraries folder under your project ➜ `Add Files to <...>`
 2. Go to `node_modules` ➜ `react-native-geocoder` and add `ios/RNGeocoder.xcodeproj` file
 3. Add libRNGeocoder.a to "Build Phases" -> "Link Binary With Libraries"
 
-## Android
+#### Android
+
 1. In `android/setting.gradle`
 
 ```gradle
@@ -41,7 +59,7 @@ project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, 
 ...
 dependencies {
     ...
-    compile project(':react-native-geocoder')
+    implementation project(':react-native-geocoder')
 }
 ```
 
@@ -57,7 +75,8 @@ public class MainActivity extends ReactActivity {
   protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNGeocoderPackage()); // <------ add this
+            new RNGeocoderPackage()     // <------ add this
+        ); 
   }
 
   ......

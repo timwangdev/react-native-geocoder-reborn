@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.author         = { "devfd" => "hello@devfd.me" }
   s.license        = package["license"]
   s.homepage       = package["homepage"]
-  s.platform       = :ios, "7.0"
+  s.platform       = :ios, "8.0"
   s.source         = { :git => "https://github.com/devfd/react-native-geocoder.git", :tag => "v#{s.version}" }
   s.source_files   = 'ios/RNGeocoder/*.{h,m}'
   s.preserve_paths = "**/*.js"
