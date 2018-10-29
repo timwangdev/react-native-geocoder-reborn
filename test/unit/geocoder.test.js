@@ -52,6 +52,12 @@ describe('geocoder', function() {
       expect(RNGeocoder.geocodePosition).to.have.been.calledWith(position);
     });
 
+    it ('returns geocoding results with 0 lat and lng', async function() {
+      const position = {lat: 0, lng: 0};
+      await Geocoder.geocodePosition(position);
+      expect(RNGeocoder.geocodePosition).to.have.been.calledWith(position);
+    });
+
     it ('does not call google api if no apiKey', function() {
       const position = {lat: 1.234, lng: 4.567};
       RNGeocoder.geocodePosition = sinon.stub().returns(Promise.reject());

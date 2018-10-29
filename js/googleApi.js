@@ -59,7 +59,7 @@ function format(raw) {
 
 export default {
   geocodePosition(apiKey, position) {
-    if (!apiKey || !position || !position.lat || !position.lng) {
+    if (!apiKey || !position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
       return Promise.reject(new Error("invalid apiKey / position"));
     }
 

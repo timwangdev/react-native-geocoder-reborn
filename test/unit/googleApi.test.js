@@ -22,6 +22,13 @@ describe('googleApi', function() {
       expect(ret).to.eql('yo');
     });
 
+    it ('position', async function() {
+      let ret = await GoogleApi.geocodePosition('myKey', {lat: 0, lng: 0});
+      expect(geocodeRequest).to.have.been.calledWith(
+        'https://maps.google.com/maps/api/geocode/json?key=myKey&latlng=0,0');
+      expect(ret).to.eql('yo');
+    });
+
     it ('address', async function() {
       let ret = await GoogleApi.geocodeAddress('myKey', "london");
       expect(geocodeRequest).to.have.been.calledWith(

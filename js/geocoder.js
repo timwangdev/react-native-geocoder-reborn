@@ -11,7 +11,7 @@ export default {
   },
 
   geocodePosition(position) {
-    if (!position || !position.lat || !position.lng) {
+    if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
       return Promise.reject(new Error("invalid position: {lat, lng} required"));
     }
 
