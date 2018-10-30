@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/timwangdev/react-native-geocoder-reborn",
   "license": "MIT",
+  "types": "index.d.ts",
   "peerDependencies": {
     "react-native": ">=0.56.0"
   },
