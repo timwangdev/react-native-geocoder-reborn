@@ -1,3 +1,23 @@
-machine:
-  node:
-    version: 5.11.1
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install
+          command: yarn install
+
+      - run:
+          name: Test
+          command: yarn test
+          when: always
