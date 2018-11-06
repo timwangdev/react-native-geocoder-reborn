@@ -1,10 +1,10 @@
 {
   "name": "react-native-geocoder-reborn",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Geocoding for react native.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --require test/setup.js --reporter dot test/unit "
+    "test": "mocha --recursive --require test/setup.js --reporter dot test/unit"
   },
   "keywords": [
     "react-native",
