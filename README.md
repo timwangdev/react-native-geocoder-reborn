@@ -3,10 +3,12 @@
 # react-native-geocoder-reborn
 
 [![CircleCI](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master.svg?style=shield)](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master)
+[![npm](https://img.shields.io/npm/v/react-native-geocoder-reborn.svg)](https://www.npmjs.com/package/react-native-geocoder-reborn)
+[![Downloads](https://img.shields.io/npm/dw/react-native-geocoder-reborn.svg)](https://www.npmjs.com/package/react-native-geocoder-reborn)
 
 Geocoding services for react native.
 
-The project is built on top of [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder), due to original project is not likely being maintained. This fork should be a drop-in replacement and some bug fixing and TypeScript support have being added.
+The project is built on top of [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder), due to original project is not likely being maintained. This fork should be a drop-in replacement. Some bug fixing and TypeScript support have being added.
 
 ## Version table
 | Geocoder Version | RN        |
