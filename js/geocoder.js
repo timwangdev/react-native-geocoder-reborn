@@ -10,23 +10,23 @@ export default {
     this.apiKey = key;
   },
 
-  geocodePosition(position) {
+  geocodePosition(position, maxResults) {
     if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
       return Promise.reject(new Error("invalid position: {lat, lng} required"));
     }
 
-    return RNGeocoder.geocodePosition(position).catch(err => {
+    return RNGeocoder.geocodePosition(position, maxResults).catch(err => {
       if (!this.apiKey) { throw err; }
       return GoogleApi.geocodePosition(this.apiKey, position);
     });
   },
 
-  geocodeAddress(address) {
+  geocodeAddress(address, maxResults) {
     if (!address) {
       return Promise.reject(new Error("address is null"));
     }
 
-    return RNGeocoder.geocodeAddress(address).catch(err => {
+    return RNGeocoder.geocodeAddress(address, maxResults).catch(err => {
       if (!this.apiKey) { throw err; }
       return GoogleApi.geocodeAddress(this.apiKey, address);
     });
