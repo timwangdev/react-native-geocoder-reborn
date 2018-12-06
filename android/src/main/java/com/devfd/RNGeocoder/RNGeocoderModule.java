@@ -31,14 +31,14 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodeAddress(String addressName, Promise promise) {
+    public void geocodeAddress(String addressName, Integer maxResults, Promise promise) {
         if (!geocoder.isPresent()) {
           promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
           return;
         }
 
         try {
-            List<Address> addresses = geocoder.getFromLocationName(addressName, 2);
+            List<Address> addresses = geocoder.getFromLocationName(addressName, maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
@@ -51,14 +51,14 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodePosition(ReadableMap position, Promise promise) {
+    public void geocodePosition(ReadableMap position, Integer maxResults, Promise promise) {
         if (!geocoder.isPresent()) {
             promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
             return;
         }
 
         try {
-            List<Address> addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), 20);
+            List<Address> addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
