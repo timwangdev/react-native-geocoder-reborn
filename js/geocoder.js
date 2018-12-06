@@ -10,7 +10,7 @@ export default {
     this.apiKey = key;
   },
 
-  geocodePosition(position, maxResults) {
+  geocodePosition(position, maxResults = 20) {
     if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
       return Promise.reject(new Error("invalid position: {lat, lng} required"));
     }
@@ -21,7 +21,7 @@ export default {
     });
   },
 
-  geocodeAddress(address, maxResults) {
+  geocodeAddress(address, maxResults = 2) {
     if (!address) {
       return Promise.reject(new Error("address is null"));
     }
