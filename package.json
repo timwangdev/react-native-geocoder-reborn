@@ -4,7 +4,8 @@
   "description": "Geocoding for react native.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --require test/setup.js --reporter dot test/unit"
+    "test": "mocha --recursive --require test/setup.js --reporter dot test/unit",
+    "test:e2e": "mocha --recursive --require test/setup.js --reporter dot test/e2e"
   },
   "keywords": [
     "react-native",

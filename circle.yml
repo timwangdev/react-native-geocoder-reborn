@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/circleci/android:api-28-node8-alpha
 
     working_directory: ~/repo
 
@@ -16,8 +16,19 @@ jobs:
       - run:
           name: Install
           command: yarn install
+      
+      - save_cache:
+          key:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
 
       - run:
           name: Test
           command: yarn test
+          when: always
+  
+      - run:
+          name: Test E2E
+          command: yarn test:e2e
           when: always
