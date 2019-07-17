@@ -10,7 +10,7 @@ node_modules/.bin/appium &
 APPIUM_PID=$!
 
 echo "Start static http server"
-http-server &
+npx http-server &
 HTTPSERVER_PID=$!
 
 echo "Start packager"

@@ -27,7 +27,7 @@ jobs:
           command: yarn test
           when: always
 
-      - run:
-          name: Test E2E
-          command: bash e2e/prepare.sh && bash e2e/run.sh
-          when: always
+      # - run:
+      #     name: Test E2E
+      #     command: bash e2e/prepare.sh && bash e2e/run.sh
+      #     when: always
