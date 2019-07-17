@@ -29,5 +29,5 @@ jobs:
 
       - run:
           name: Test E2E
-          command: sh e2e/prepare.sh && sh e2e/run.sh
+          command: bash e2e/prepare.sh && bash e2e/run.sh
           when: always

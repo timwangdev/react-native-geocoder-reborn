@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -ex
 set -o nounset
 set -o errtrace
 set -o errexit
@@ -13,15 +13,15 @@ NPM_PACKAGE="react-native-geocoder-*.tgz"
 cd e2e
 echo "Init project ${PROJECT}"
 rm -rf $PROJECT
-react-native init $PROJECT
+npx react-native init $PROJECT
 
 cd $PROJECT
 echo "Install package under test ${NPM_PACKAGE}"
 npm install ../../$NPM_PACKAGE > /dev/null
 rm -rf ../../$NPM_PACKAGE
 
-echo "Prepare android"
-rnpm link react-native-geocoder
+# echo "Prepare android"
+# rnpm link react-native-geocoder
 
 echo "Prepare JS app"
 cp ../js/index.android.js .
