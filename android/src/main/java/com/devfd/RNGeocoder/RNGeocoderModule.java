@@ -15,6 +15,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class RNGeocoderModule extends ReactContextBaseJavaModule {
 
@@ -22,7 +23,6 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
 
     public RNGeocoderModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        geocoder = new Geocoder(reactContext.getApplicationContext());
     }
 
     @Override
@@ -32,6 +32,10 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void geocodeAddress(String addressName, Promise promise) {
+        if (geocoder == null) {
+            geocoder = new Geocoder(getReactApplicationContext());
+        }
+
         if (!geocoder.isPresent()) {
           promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
           return;
@@ -51,7 +55,11 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodePosition(ReadableMap position, Promise promise) {
+    public void geocodePosition(ReadableMap position, String language, Promise promise) {
+        if (geocoder == null) {
+            geocoder = new Geocoder(getReactApplicationContext(), new Locale(language));
+        }
+
         if (!geocoder.isPresent()) {
             promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
             return;
