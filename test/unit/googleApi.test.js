@@ -30,9 +30,9 @@ describe('googleApi', function() {
     });
 
     it ('address', async function() {
-      let ret = await GoogleApi.geocodeAddress('myKey', "london");
+      let ret = await GoogleApi.geocodeAddress('myKey', 'london', 'en');
       expect(geocodeRequest).to.have.been.calledWith(
-        'https://maps.google.com/maps/api/geocode/json?key=myKey&address=london');
+        'https://maps.google.com/maps/api/geocode/json?key=myKey&address=london&language=en');
       expect(ret).to.eql('yo');
     });
   });
