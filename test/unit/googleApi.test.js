@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import GoogleApi from '../../js/googleApi.js';
+import GoogleApi from '../../src/googleApi.js';
 
 describe('googleApi', function() {
 

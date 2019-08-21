@@ -59,19 +59,25 @@ function format(raw) {
 
 export default {
   geocodePosition(apiKey, position, language = 'en') {
-    if (!apiKey || !position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
-      return Promise.reject(new Error("invalid apiKey / position"));
+    if (!apiKey) {
+      return Promise.reject(new Error("Invalid apiKey"));
+    }
+    if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
+      return Promise.reject(new Error("Invalid position"));
     }
 
     return this.geocodeRequest(`${googleUrl}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`);
   },
 
-  geocodeAddress(apiKey, address) {
-    if (!apiKey || !address) {
-      return Promise.reject(new Error("invalid apiKey / address"));
+  geocodeAddress(apiKey, address, language = 'en') {
+    if (!apiKey) {
+      return Promise.reject(new Error("Invalid apiKey"));
+    }
+    if (!address) {
+      return Promise.reject(new Error("Invalid address"));
     }
 
-    return this.geocodeRequest(`${googleUrl}?key=${apiKey}&address=${encodeURI(address)}`);
+    return this.geocodeRequest(`${googleUrl}?key=${apiKey}&address=${encodeURI(address)}&language=${language}`);
   },
 
   async geocodeRequest(url) {
@@ -79,7 +85,7 @@ export default {
     const json = await res.json();
 
     if (!json.results || json.status !== 'OK') {
-      return Promise.reject(new Error(`geocoding error ${json.status}, ${json.error_message}`));
+      return Promise.reject(new Error(`Geocoding error ${json.status}, ${json.error_message}`));
     }
 
     return json.results.map(format);

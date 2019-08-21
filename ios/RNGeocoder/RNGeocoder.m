@@ -55,6 +55,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 }
 
 RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
+                  language:(NSString *)language
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -66,18 +67,23 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
       [self.geocoder cancelGeocode];
     }
 
-    [self.geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
-
+    CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
         if (error) {
             if (placemarks.count == 0) {
               return reject(@"NOT_FOUND", @"geocodeAddress failed", error);
             }
-
             return reject(@"ERROR", @"geocodeAddress failed", error);
         }
-
         resolve([self placemarksToDictionary:placemarks]);
-  }];
+    }];
+
+    if (@available(iOS 11.0, *)) {
+        [self.geocoder geocodeAddressString:address
+                            preferredLocale:[NSLocale localeWithLocaleIdentifier:language]
+                          completionHandler:handler];e
+    } else {
+        [self.geocoder geocodeAddressString:address completionHandler:handler];
+    }
 }
 
 - (NSArray *)placemarksToDictionary:(NSArray *)placemarks {

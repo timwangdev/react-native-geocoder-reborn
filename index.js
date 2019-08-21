@@ -1,3 +1,3 @@
-import Geocoder from './js/geocoder.js';
+import Geocoder from './src/geocoder.js';
 
 export default Geocoder;

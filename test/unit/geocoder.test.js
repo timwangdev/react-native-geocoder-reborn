@@ -17,7 +17,7 @@ describe('geocoder', function() {
 
     Geocoder = proxyquire
       .noCallThru()
-      .load('../../js/geocoder.js', {
+      .load('../../src/geocoder.js', {
         './googleApi.js': GoogleApi,
         'react-native': {
           NativeModules: { RNGeocoder },
@@ -29,7 +29,7 @@ describe('geocoder', function() {
     let GeocoderPkg = proxyquire
       .noCallThru()
       .load('../../', {
-        './js/geocoder.js': { valid: true },
+        './src/geocoder.js': { valid: true },
       }).default;
 
     expect(GeocoderPkg.valid).to.be.ok;
@@ -84,7 +84,7 @@ describe('geocoder', function() {
         () => { throw new Error('should not be there') },
         (err) => {
           expect(err).to.be.ok;
-          expect(err.message).to.contain('address is null');
+          expect(err.message).to.contain('Address is required');
         }
       );
     });

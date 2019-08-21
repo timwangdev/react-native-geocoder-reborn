@@ -31,9 +31,9 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodeAddress(String addressName, Promise promise) {
+    public void geocodeAddress(String addressName, String language, Promise promise) {
         if (geocoder == null) {
-            geocoder = new Geocoder(getReactApplicationContext());
+            geocoder = new Geocoder(getReactApplicationContext(), new Locale(language));
         }
 
         if (!geocoder.isPresent()) {

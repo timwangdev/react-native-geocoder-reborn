@@ -24,6 +24,8 @@ declare module 'react-native-geocoder-reborn' {
 
     export function fallbackToGoogle(key: string): void;
 
+    export function setLanguage(language: string): void;
+
     export function geocodePosition(position: Position): GeocodingObject[];
 
     export function geocodeAddress(address: string): GeocodingObject[];
