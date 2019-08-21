@@ -16,16 +16,16 @@ describe('googleApi', function() {
     });
 
     it ('position', async function() {
-      let ret = await GoogleApi.geocodePosition('myKey', {lat: 1.234, lng: 1.14});
+      let ret = await GoogleApi.geocodePosition('myKey', {lat: 1.234, lng: 1.14}, 'en');
       expect(geocodeRequest).to.have.been.calledWith(
-        'https://maps.google.com/maps/api/geocode/json?key=myKey&latlng=1.234,1.14');
+        'https://maps.google.com/maps/api/geocode/json?key=myKey&latlng=1.234,1.14&language=en');
       expect(ret).to.eql('yo');
     });
 
     it ('position', async function() {
-      let ret = await GoogleApi.geocodePosition('myKey', {lat: 0, lng: 0});
+      let ret = await GoogleApi.geocodePosition('myKey', {lat: 0, lng: 0}, 'en');
       expect(geocodeRequest).to.have.been.calledWith(
-        'https://maps.google.com/maps/api/geocode/json?key=myKey&latlng=0,0');
+        'https://maps.google.com/maps/api/geocode/json?key=myKey&latlng=0,0&language=en');
       expect(ret).to.eql('yo');
     });
 

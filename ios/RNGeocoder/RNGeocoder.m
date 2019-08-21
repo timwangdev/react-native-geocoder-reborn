@@ -22,6 +22,7 @@
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
+                  language:(NSString *)language
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -33,7 +34,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
         [self.geocoder cancelGeocode];
     }
     
-    void (^handler)(NSArray<CLPlacemark *> *placemarks, NSError *error)= ^{
+    CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
         if (error) {
             if (placemarks.count == 0) {
                 return reject(@"NOT_FOUND", @"geocodePosition failed", error);
@@ -46,7 +47,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
     
     if (@available(iOS 11.0, *)) {
         [self.geocoder reverseGeocodeLocation:location
-                              preferredLocale:nil
+                              preferredLocale:[NSLocale localeWithLocaleIdentifier:language]
                             completionHandler:handler];
     } else {
         [self.geocoder reverseGeocodeLocation:location completionHandler:handler];
