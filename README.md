@@ -93,7 +93,7 @@ public class MainActivity extends ReactActivity {
 ```
 
 ## Usage
-```
+```js
 import Geocoder from 'react-native-geocoder-reborn';
 
 // Position Geocoding
