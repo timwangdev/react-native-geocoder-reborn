@@ -26,9 +26,9 @@ declare module 'react-native-geocoder-reborn' {
 
     export function setLanguage(language: string): void;
 
-    export function geocodePosition(position: Position): GeocodingObject[];
+    export function geocodePosition(position: Position): Promise<GeocodingObject[]>;
 
-    export function geocodeAddress(address: string): GeocodingObject[];
+    export function geocodeAddress(address: string): Promise<GeocodingObject[]>;
 
     export = {
         apiKey,
