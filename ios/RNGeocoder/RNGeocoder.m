@@ -78,9 +78,7 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
     };
 
     if (@available(iOS 11.0, *)) {
-        [self.geocoder geocodeAddressString:address
-                            preferredLocale:[NSLocale localeWithLocaleIdentifier:language]
-                          completionHandler:handler];
+        [self.geocoder geocodeAddressString:address inRegion:nil preferredLocale:[NSLocale localeWithLocaleIdentifier:language] completionHandler:handler];
     } else {
         [self.geocoder geocodeAddressString:address completionHandler:handler];
     }
