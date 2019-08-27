@@ -75,12 +75,12 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
             return reject(@"ERROR", @"geocodeAddress failed", error);
         }
         resolve([self placemarksToDictionary:placemarks]);
-    }];
+    };
 
     if (@available(iOS 11.0, *)) {
         [self.geocoder geocodeAddressString:address
                             preferredLocale:[NSLocale localeWithLocaleIdentifier:language]
-                          completionHandler:handler];e
+                          completionHandler:handler];
     } else {
         [self.geocoder geocodeAddressString:address completionHandler:handler];
     }
