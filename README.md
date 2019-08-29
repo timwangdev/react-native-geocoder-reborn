@@ -28,7 +28,7 @@ npm install --save react-native-geocoder-reborn
 
 ## Link
 
-### Autolinking with `react-native-cli` (require `react-native` 0.60 or above)
+### Autolinking with `react-native-cli` (requires `react-native` 0.60 or above)
 
 ```bash
 cd ios && pod install && cd .. # CocoaPods on iOS needs this extra step
