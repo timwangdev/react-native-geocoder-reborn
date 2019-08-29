@@ -11,9 +11,9 @@ Geocoding services for react native.
 The project is built on top of [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder), due to original project is not likely being maintained. This fork should be a drop-in replacement. Some bug fixing and TypeScript support have being added.
 
 ## Version table
-| Geocoder Version | RN        |
-| ------- |:----------|
-| >=0.7.0   | >= 0.56.0 |
+| Geocoder Version | RN |
+|--|--|
+| >=0.7.0 | >= 0.56.0 |
 
 If you're using an older version of react-native, please consider using [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder) instead.
 
@@ -124,10 +124,22 @@ import Geocoder from 'react-native-geocoder-reborn';
 Geocoder.fallbackToGoogle(MY_KEY);
 
 // use the lib as usual
-let ret = await Geocoder.geocodePosition({lat, lng})
+let res = await Geocoder.geocodePosition({lat, lng})
 // you get the same results
 
 ```
+
+## With language preference
+
+```js
+import Geocoder from 'react-native-geocoder-reborn';
+// Set language attrubute before api calls.
+Geocoder.setLanguage('fr');
+
+let res = await Geocoder.geocodePosition({lat, lng});
+```
+
+Note: Platforms may have different implantations for locale preference. Here is [Google Maps API supported language list](https://developers.google.com/maps/faq#languagesupport).
 
 ## With async / await
 ```js

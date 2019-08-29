@@ -28,7 +28,7 @@ export default {
       return Promise.reject(new Error("Invalid position: {lat, lng} is required"));
     }
 
-    if (this.useGoogleOnIos && Platform.OS === 'ios') {
+    if (this.useGoogleOnIos && this.apiKey && Platform.OS === 'ios') {
       return GoogleApi.geocodePosition(this.apiKey, position, this.language);
     }
 
@@ -43,7 +43,7 @@ export default {
       return Promise.reject(new Error("Address is required"));
     }
 
-    if (this.useGoogleOnIos && Platform.OS === 'ios') {
+    if (this.useGoogleOnIos && this.apiKey && Platform.OS === 'ios') {
       return GoogleApi.geocodeAddress(this.apiKey, address, this.language);
     }
 
