@@ -55,6 +55,10 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 }
 
 RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
+                  withSWLat:(CGFloat)swLat
+                  withSWLng:(CGFloat)swLng
+                  withNELat:(CGFloat)neLat
+                  withNELng:(CGFloat)neLng
                   language:(NSString *)language
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -68,6 +72,17 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
     }
 
     CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
+    CLRegion* region;
+    if (swLat == 0 || swLng == 0 || neLat == 0 || neLng == 0){
+        region = nil;
+    }else{
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(swLat + (neLat-swLat) / 2, swLng + (neLng-swLng) / 2);
+        //Computing the radius based on lat delta, since 1 lat = 111 km no matter the location
+        float latDelta = neLat - swLat;
+        float radiusLat = (latDelta/2);
+        float radius = radiusLat * 111000;
+        region = [[CLCircularRegion alloc] initWithCenter:center radius:radius identifier:@"Search Radius"];
+    }
         if (error) {
             if (placemarks.count == 0) {
               return reject(@"NOT_FOUND", @"geocodeAddress failed", error);
@@ -78,7 +93,7 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
     };
 
     if (@available(iOS 11.0, *)) {
-        [self.geocoder geocodeAddressString:address inRegion:nil preferredLocale:[NSLocale localeWithLocaleIdentifier:language] completionHandler:handler];
+        [self.geocoder geocodeAddressString:address inRegion:region preferredLocale:[NSLocale localeWithLocaleIdentifier:language] completionHandler:handler];
     } else {
         [self.geocoder geocodeAddressString:address completionHandler:handler];
     }
