@@ -32,7 +32,7 @@ declare module 'react-native-geocoder-reborn' {
 
     export function geocodeAddress(address: string): Promise<GeocodingObject[]>;
 
-    export = {
+    interface Geocoder {
         apiKey,
         fallbackToGoogle,
         forceGoogleOnIos,
@@ -40,4 +40,6 @@ declare module 'react-native-geocoder-reborn' {
         geocodePosition,
         geocodeAddress,
     }
+
+    export default Geocoder;
 }
