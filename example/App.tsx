@@ -20,20 +20,28 @@ class App extends React.Component {
     lngInput: '',
     localeInput: 'en',
     apiKeyInput: '',
-    addressObj: {},
-    errObj: {},
+    addressObj: null,
+    errObj: null,
   }
 
   geocodePosition = () => {
+    this.setState({
+      addressObj: null,
+      errObj: null,
+    });
     Geocoder.geocodePosition({ lat: Number(this.state.latInput), lng: Number(this.state.lngInput)})
       .then(res => this.setState({ addressObj: res }))
-      .catch(err => this.setState({ errObj: err }));
+      .catch(err => this.setState({ errObj: err.message || err }));
   }
 
   geocodeAddress = () => {
+    this.setState({
+      addressObj: null,
+      errObj: null,
+    });
     Geocoder.geocodeAddress(this.state.addressInput)
       .then(res => this.setState({ addressObj: res }))
-      .catch(err => this.setState({ errObj: err }));
+      .catch(err => this.setState({ errObj: err.message || err }));
   }
 
   setLocale = () => {
