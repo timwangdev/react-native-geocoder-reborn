@@ -85,7 +85,7 @@ export default {
     const json = await res.json();
 
     if (!json.results || json.status !== 'OK') {
-      return Promise.reject(new Error(`Geocoding error ${json.status}, ${json.error_message}`));
+      throw new Error(`Geocoding error ${json.status}, ${json.error_message}`);
     }
 
     return json.results.map(format);
