@@ -33,19 +33,22 @@ npm install --save react-native-geocoder-reborn
 ```bash
 cd ios && pod install && cd .. # CocoaPods on iOS needs this extra step
 # run with react-native-cli
-yarn react-native run-ios
-yarn react-native run-android
+react-native run-ios
+react-native run-android
 ```
 
 Please review [autolinking docs](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) for detials.
 
-### Automatically
-Run
+If "Autolinking" is not available for you, please try the following:
+
+<details><summary>Use `react-native link`</summary>
+
 ```
 react-native link react-native-geocoder-reborn
 ```
+</details>
 
-### Manually
+<details><summary>Manually</summary>
 If automatic linking fails you can follow the manual installation steps
 
 #### iOS
@@ -91,6 +94,7 @@ public class MainActivity extends ReactActivity {
   ......
 }
 ```
+</details>
 
 ## Usage
 ```js
@@ -114,14 +118,16 @@ Geocoder.geocodeAddress('New York').then(res => {
 .catch(err => console.log(err))
 ```
 
-## Fallback to google maps geocoding
+## Fallback to Google Maps geocoding
 
-Geocoding services might not be included in some Android devices (Kindle, some 4.1 devices, non-google devices). For those special cases the lib can fallback to the [online google maps geocoding service](https://developers.google.com/maps/documentation/geocoding/intro#Geocoding)
+Geocoding services might not be included in some Android devices (Kindle, some 4.1 devices, non-google devices). For those special cases the lib can fallback to the [online Google Maps geocoding service](https://developers.google.com/maps/documentation/geocoding/intro#Geocoding)
 
 ```js
 import Geocoder from 'react-native-geocoder-reborn';
-// simply add your google key
-Geocoder.fallbackToGoogle(MY_KEY);
+// simply add your google maps key
+Geocoder.fallbackToGoogle(YOUR_API_KEY);
+// Add next line if you also want to use Google Maps api on iOS.
+Geocode.forceGoogleOnIos(true);
 
 // use the lib as usual
 let res = await Geocoder.geocodePosition({lat, lng})
@@ -133,8 +139,8 @@ let res = await Geocoder.geocodePosition({lat, lng})
 
 ```js
 import Geocoder from 'react-native-geocoder-reborn';
-// Set language attrubute before api calls.
-Geocoder.setLanguage('fr');
+// Set language attribute before api calls.
+Geocoder.setLanguage('fr'); // Set language to French.
 
 let res = await Geocoder.geocodePosition({lat, lng});
 ```
@@ -143,19 +149,22 @@ Note: Platforms may have different implantations for locale preference. Here is 
 
 ## With async / await
 ```js
+import Geocoder from 'react-native-geocoder-reborn';
+
 try {
-    const res = await Geocoder.geocodePosition(NY);
     ...
-    const res = await Geocoder.geocodeAddress('London');
+    await Geocoder.geocodePosition({ lat, lng });
     ...
-}
-catch(err) {
+    await Geocoder.geocodeAddress('London');
+    ...
+} catch(err) {
     console.log(err);
 }
 ```
 
 ## Geocoding object format
-both iOS and Android will return the following object:
+
+Both iOS and Android will return the following object:
 
 ```js
 {
@@ -174,12 +183,9 @@ both iOS and Android will return the following object:
 }
 ```
 
-## Notes
+## Known Issues
 
 ### iOS
 iOS does not allow sending multiple geocoding requests simultaneously, hence if you send a second call, the first one will be cancelled.
-
-### Android
-geocoding may not work on older android devices (4.1) and will not work if Google play services are not available.
 
 
