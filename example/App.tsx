@@ -34,6 +34,10 @@ class App extends React.Component {
       .catch(err => this.setState({ errObj: err }));
   }
 
+  runTest = () => {
+
+  }
+
   render() {
     return (
       <>
@@ -43,6 +47,7 @@ class App extends React.Component {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <View style={styles.body}>
+              <Button title="Run Test" onPress={this.runTest} />
               <Text>Input Latitude</Text>
               <TextInput
                 style={styles.input}
@@ -69,7 +74,7 @@ class App extends React.Component {
               </Text>
               <Text>Error Output:</Text>
               <Text style={styles.errText}>
-                {JSON.stringify(this.state.addressObj, undefined, 2)}
+                {JSON.stringify(this.state.errObj, undefined, 2)}
               </Text>
             </View>
           </ScrollView>
