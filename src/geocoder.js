@@ -30,7 +30,7 @@ export default {
 
     // no API key - nothing we can do. We return a Promise (and reject it) because
     // the native modules also return a Promise.
-    return new Promise.reject();
+    return Promise.reject();
   },
 
   geocodePosition(position) {
@@ -89,6 +89,6 @@ export default {
 
     // no API key - nothing we can do. We return a Promise (and reject it) because
     // the native modules also return a Promise.
-    return new Promise.reject();
+    return Promise.reject();
   }
 }
