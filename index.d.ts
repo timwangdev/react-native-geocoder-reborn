@@ -30,9 +30,9 @@ declare module 'react-native-geocoder-reborn' {
     };
 
     export const useGeocodePosition: (position: Position | null) => {
-        geocodePosition: GeocodingObject[]
+        geocodePosition: GeocodingObject[] | null
         error: any | null
-    } | null
+    }
 
     export default geocoder;
 }
