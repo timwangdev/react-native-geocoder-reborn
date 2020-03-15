@@ -94,6 +94,13 @@ export default {
     if (this._forceGoogleOnIos && Platform.OS === 'ios') {
       return this.geocodeAddressGoogle(address);
     }
+    // If any of the parameters is not set for the region, we set them all to 0
+    if (swLat == null || swLng == null || neLat == null || neLng == null){
+        swLat = 0;
+        swLng = 0;
+        neLat = 0;
+        neLng = 0;
+    }
 
     if (typeof RNGeocoder === 'undefined') {
       if (!this._fallbackToGoogle) {
