@@ -74,3 +74,8 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+_example
+
+.project
+.settings

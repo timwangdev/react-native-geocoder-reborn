@@ -10,6 +10,7 @@ export default {
   _locale = 'en',
   _fallbackToGoogle = false,
   _forceGoogleOnIos = false,
+  _maxResults = 5,
 
   _checkInit() {
     if (!this._inited) {
@@ -23,6 +24,7 @@ export default {
       if (options.locale != null) { this._locale = options.locale; }
       if (options.fallbackToGoogle != null) { this._fallbackToGoogle = options.fallbackToGoogle; }
       if (options.forceGoogleOnIos != null) { this._forceGoogleOnIos = options.forceGoogleOnIos; }
+      if (option.maxResults != null) { this._maxResults = options.maxResults}
     }
 
     if (typeof RNGeocoder === 'undefined') {
@@ -34,7 +36,7 @@ export default {
       return;
     }
 
-    await RNGeocoder.init(this._locale);
+    await RNGeocoder.init(this._locale, this._maxResults);
     _inited = true;
   },
 

@@ -1,4 +1,4 @@
-package com.devfd.RNGeocoder;
+package dev.timwang.RnGeocoder;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,11 +17,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class RNGeocoderModule extends ReactContextBaseJavaModule {
+public class RnGeocoderModule extends ReactContextBaseJavaModule {
 
     private Geocoder geocoder;
+    private int maxResults;
 
-    public RNGeocoderModule(ReactApplicationContext reactContext) {
+    public RnGeocoderModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
@@ -31,18 +32,19 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodeAddress(String addressName, String language, Promise promise) {
-        if (geocoder == null) {
-            geocoder = new Geocoder(getReactApplicationContext(), new Locale(language));
-        }
-
+    public void init(String locale, Integer maxResults) {
+        geocoder = new Geocoder(getReactApplicationContext(), new Locale(locale));
+        this.maxResults = maxResults;
         if (!geocoder.isPresent()) {
           promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
           return;
         }
+    }
 
+    @ReactMethod
+    public void geocodeAddress(String addressName, String language, Promise promise) {
         try {
-            List<Address> addresses = geocoder.getFromLocationName(addressName, 2);
+            List<Address> addresses = geocoder.getFromLocationName(addressName, maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
@@ -66,7 +68,7 @@ public class RNGeocoderModule extends ReactContextBaseJavaModule {
         }
 
         try {
-            List<Address> addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), 20);
+            List<Address> addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {

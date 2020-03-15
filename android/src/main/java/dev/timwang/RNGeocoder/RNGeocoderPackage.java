@@ -1,4 +1,4 @@
-package com.devfd.RNGeocoder;
+package dev.timwang.RnGeocoder;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
-public class RNGeocoderPackage implements ReactPackage {
+public class RnGeocoderPackage implements ReactPackage {
 
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     return Arrays.<NativeModule>asList(
-        new RNGeocoderModule(reactContext)
+        new RnGeocoderModule(reactContext)
     );
   }
 
