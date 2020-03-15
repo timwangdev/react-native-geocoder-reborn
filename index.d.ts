@@ -20,14 +20,20 @@ declare module 'react-native-geocoder-reborn' {
         subLocality: string | null
     }
 
-    const geocoder: {
-        apiKey: null | string,
-        fallbackToGoogle: (key: string) => void,
-        forceGoogleOnIos: (enable: boolean) => void,
-        setLanguage: (language: string) => void,
+    export interface GeocoderOptions {
+        apiKey?: string | null;
+        locale?: string;
+        fallbackToGoogle?: boolean;
+        forceGoogleOnIos?: boolean;
+    }
+
+    const Geocoder: {
+        init: (options?: GeocoderOptions) => Promise<void>;
         geocodePosition: (position: Position) => Promise<GeocodingObject[]>,
         geocodeAddress: (address: string) => Promise<GeocodingObject[]>,
-    };
+        geocodePositionGoogle: (position: Position) => Promise<GeocodingObject[]>,
+        geocodeAddressGoogle: (address: string) => Promise<GeocodingObject[]>,
+    }
 
-    export default geocoder;
+    export default Geocoder;
 }

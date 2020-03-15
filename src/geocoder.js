@@ -5,90 +5,108 @@ const { RNGeocoder } = NativeModules;
 
 export default {
 
-  apiKey: '',
+  _inited = false,
+  _apiKey = null,
+  _locale = 'en',
+  _fallbackToGoogle = false,
+  _forceGoogleOnIos = false,
 
-  language: 'en',
-
-  useGoogleOnIos: false,
-
-  fallbackToGoogle(key) {
-    this.apiKey = key;
+  _checkInit() {
+    if (!this._inited) {
+      throw new Error('The module is not initialized.')
+    }
   },
 
-  forceGoogleOnIos(enable) {
-    this.useGoogleOnIos = enable;
-  },
-
-  setLanguage(language) {
-    this.language = language;
-  },
-
-  geocodePositionGoogle(position) {
-    if (this.apiKey) {
-      return GoogleApi.geocodePosition(this.apiKey, position, this.language);
+  async init(options) {
+    if (options) {
+      if (options.apiKey != null) { this._apiKey = options.apiKey; }
+      if (options.locale != null) { this._locale = options.locale; }
+      if (options.fallbackToGoogle != null) { this._fallbackToGoogle = options.fallbackToGoogle; }
+      if (options.forceGoogleOnIos != null) { this._forceGoogleOnIos = options.forceGoogleOnIos; }
     }
 
-    // no API key - nothing we can do. We return a Promise (and reject it) because
-    // the native modules also return a Promise.
-    return Promise.reject();
-  },
-
-  geocodePosition(position) {
-    if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
-      return Promise.reject(new Error("Invalid position: {lat, lng} is required"));
+    if (typeof RNGeocoder === 'undefined') {
+      if (!this._fallbackToGoogle) {
+        throw new Error('Missing Native Module: Please check the module linking, '
+          + 'or set `fallbackToGoogle` in the init options.');
+      }
+      _inited = true;
+      return;
     }
 
-    if (this.useGoogleOnIos && this.apiKey && Platform.OS === 'ios') {
-      // if we're on iOS and we've been told to use Google, then use Google
+    await RNGeocoder.init(this._locale);
+    _inited = true;
+  },
+
+  async geocodePositionGoogle(position) {
+    _checkInit();
+    if (!this._apiKey) {
+      throw new Error('Invalid API Key: `apiKey` is required in the init options '
+        + 'for using Google Maps API.');
+    }
+    return GoogleApi.geocodePosition(this._apiKey, position, this._locale);
+  },
+
+  async geocodeAddressGoogle(address) {
+    _checkInit();
+    if (!this._apiKey) {
+      throw new Error('Invalid API Key: `apiKey` is required in the init options '
+        + 'for using Google Maps API.');
+    }
+
+    return GoogleApi.geocodeAddress(this._apiKey, address, this._locale);
+  },
+
+  async geocodePosition(position) {
+    _checkInit();
+    if (!position || (position.lat == null) || (position.lng == null)) {
+      throw new Error("Invalid Position: `{lat, lng}` is required");
+    }
+
+    if (this._forceGoogleOnIos && Platform.OS === 'ios') {
       return this.geocodePositionGoogle(position);
     }
 
     if (typeof RNGeocoder === 'undefined') {
-      // if the RNGeocoder object is *not* defined, then try to use Google.
-      // This happens if we're using this module with react-native-web, for example.
+      if (!this._fallbackToGoogle) {
+        throw new Error('Missing Native Module: Please check the module linking, '
+          + 'or set `fallbackToGoogle` in the init options.');
+      }
       return this.geocodePositionGoogle(position);
     }
 
-    // finally, try to use the Native Geocoder object for this particular platform,
-    // with a fallback to Google in case it fails.
-    return RNGeocoder.geocodePosition(position, this.language).catch(err => {
-      if (!this.apiKey) { throw err; }
+    try {
+      return await RNGeocoder.geocodePosition(position);
+    } catch (err) {
+      if (!this._fallbackToGoogle) { throw err; }
       return this.geocodePositionGoogle(position);
-    });
+    }
   },
 
-  geocodeAddress(address) {
+  async geocodeAddress(address) {
+    _checkInit();
     if (!address) {
-      return Promise.reject(new Error("Address is required"));
+      throw new Error("Invalid Address: `string` is required");
     }
 
-    if (this.useGoogleOnIos && this.apiKey && Platform.OS === 'ios') {
-      // if we're on iOS and we've been told to use Google, then use Google
+    if (this._forceGoogleOnIos && Platform.OS === 'ios') {
       return this.geocodeAddressGoogle(address);
     }
 
     if (typeof RNGeocoder === 'undefined') {
-      // if the RNGeocoder object is *not* defined, then try to use Google.
-      // This happens if we're using this module with react-native-web, for example.
+      if (!this._fallbackToGoogle) {
+        throw new Error('Missing Native Module: Please check the module linking, '
+          + 'or set `fallbackToGoogle` in the init options.');
+      }
       return this.geocodeAddressGoogle(address);
     }
 
-    // finally, try to use the Native Geocoder object for this particular platform,
-    // with a fallback to Google in case it fails.
-    return RNGeocoder.geocodeAddress(address, this.language).catch(err => {
-      if (!this.apiKey) { throw err; }
+    try {
+      return await RNGeocoder.geocodeAddress(address);
+    } catch (err) {
+      if (!this._fallbackToGoogle) { throw err; }
       return this.geocodeAddressGoogle(address);
-    });
+    }
   },
 
-
-  geocodeAddressGoogle(address) {
-    if (this.apiKey) {
-      return GoogleApi.geocodeAddress(this.apiKey, address, this.language);
-    }
-
-    // no API key - nothing we can do. We return a Promise (and reject it) because
-    // the native modules also return a Promise.
-    return Promise.reject();
-  }
 }

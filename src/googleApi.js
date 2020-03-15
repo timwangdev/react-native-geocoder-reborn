@@ -1,4 +1,4 @@
-const googleUrl = 'https://maps.google.com/maps/api/geocode/json';
+const GOOGLE_URL = 'https://maps.google.com/maps/api/geocode/json';
 
 function format(raw) {
   const address = {
@@ -58,7 +58,7 @@ function format(raw) {
 }
 
 export default {
-  geocodePosition(apiKey, position, language = 'en') {
+  geocodePosition(apiKey, position, language) {
     if (!apiKey) {
       return Promise.reject(new Error("Invalid apiKey"));
     }
@@ -66,10 +66,10 @@ export default {
       return Promise.reject(new Error("Invalid position"));
     }
 
-    return this.geocodeRequest(`${googleUrl}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`);
+    return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`);
   },
 
-  geocodeAddress(apiKey, address, language = 'en') {
+  geocodeAddress(apiKey, address, language) {
     if (!apiKey) {
       return Promise.reject(new Error("Invalid apiKey"));
     }
@@ -77,7 +77,7 @@ export default {
       return Promise.reject(new Error("Invalid address"));
     }
 
-    return this.geocodeRequest(`${googleUrl}?key=${apiKey}&address=${encodeURI(address)}&language=${language}`);
+    return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}&language=${language}`);
   },
 
   async geocodeRequest(url) {
