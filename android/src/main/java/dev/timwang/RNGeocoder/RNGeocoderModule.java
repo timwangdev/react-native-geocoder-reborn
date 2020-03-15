@@ -42,9 +42,9 @@ public class RnGeocoderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void geocodeAddress(String addressName, String language, Promise promise) {
+    public void geocodeAddress(String addressName, float swLat, float swLng, float neLat, float neLng, String language, Promise promise) {
         try {
-            List<Address> addresses = geocoder.getFromLocationName(addressName, maxResults);
+            List<Address> addresses = geocoder.getFromLocationName(addressName, 2, swLat, swLng, neLat, neLng, maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
