@@ -7,17 +7,31 @@ declare module 'react-native-geocoder-reborn' {
 
     export interface GeocodingObject {
         position: Position,
-        formattedAddress: string, // the full address
-        feature: string | null, // ex Yosemite Park, Eiffel Tower
+
+        // The full formatted address
+        formattedAddress: string,
+
+        // Example: Yosemite Park, Eiffel Tower
+        feature: string | null,
+
         streetNumber: string | null,
+
         streetName: string | null,
+
         postalCode: string | null,
-        locality: string | null, // city name
+
+        // City name
+        locality: string | null,
+
         country: string,
-        countryCode: string
-        adminArea: string | null
+
+        countryCode: string,
+
+        adminArea: string | null,
+
         subAdminArea: string | null,
-        subLocality: string | null
+
+        subLocality: string | null,
     }
 
     export interface GeocoderOptions {

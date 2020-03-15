@@ -1,7 +1,7 @@
 const GOOGLE_URL = 'https://maps.google.com/maps/api/geocode/json';
 
 function format(raw) {
-  const address = {
+  const geocodeObj = {
     position: {},
     formattedAddress: raw.formatted_address || '',
     feature: null,
@@ -17,7 +17,7 @@ function format(raw) {
   };
 
   if (raw.geometry && raw.geometry.location) {
-    address.position = {
+    geocodeObj.position = {
       lat: raw.geometry.location.lat,
       lng: raw.geometry.location.lng,
     }
@@ -25,58 +25,44 @@ function format(raw) {
 
   raw.address_components.forEach(component => {
     if (component.types.indexOf('route') !== -1) {
-      address.streetName = component.long_name;
+      geocodeObj.streetName = component.long_name;
     }
     else if (component.types.indexOf('street_number') !== -1) {
-      address.streetNumber = component.long_name;
+      geocodeObj.streetNumber = component.long_name;
     }
     else if (component.types.indexOf('country') !== -1) {
-      address.country = component.long_name;
-      address.countryCode = component.short_name;
+      geocodeObj.country = component.long_name;
+      geocodeObj.countryCode = component.short_name;
     }
     else if (component.types.indexOf('locality') !== -1) {
-      address.locality = component.long_name;
+      geocodeObj.locality = component.long_name;
     }
     else if (component.types.indexOf('postal_code') !== -1) {
-      address.postalCode = component.long_name;
+      geocodeObj.postalCode = component.long_name;
     }
     else if (component.types.indexOf('administrative_area_level_1') !== -1) {
-      address.adminArea = component.long_name;
+      geocodeObj.adminArea = component.long_name;
     }
     else if (component.types.indexOf('administrative_area_level_2') !== -1) {
-      address.subAdminArea = component.long_name;
+      geocodeObj.subAdminArea = component.long_name;
     }
     else if (component.types.indexOf('sublocality') !== -1 || component.types.indexOf('sublocality_level_1') !== -1) {
-      address.subLocality = component.long_name;
+      geocodeObj.subLocality = component.long_name;
     }
     else if (component.types.indexOf('point_of_interest') !== -1 || component.types.indexOf('colloquial_area') !== -1) {
-      address.feature = component.long_name;
+      geocodeObj.feature = component.long_name;
     }
   });
 
-  return address;
+  return geocodeObj;
 }
 
 export default {
   geocodePosition(apiKey, position, language) {
-    if (!apiKey) {
-      return Promise.reject(new Error("Invalid apiKey"));
-    }
-    if (!position || (!position.lat && position.lat!==0) || (!position.lng && position.lng!==0)) {
-      return Promise.reject(new Error("Invalid position"));
-    }
-
     return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`);
   },
 
   geocodeAddress(apiKey, address, language) {
-    if (!apiKey) {
-      return Promise.reject(new Error("Invalid apiKey"));
-    }
-    if (!address) {
-      return Promise.reject(new Error("Invalid address"));
-    }
-
     return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}&language=${language}`);
   },
 
@@ -85,9 +71,8 @@ export default {
     const json = await res.json();
 
     if (!json.results || json.status !== 'OK') {
-      throw new Error(`Geocoding error ${json.status}, ${json.error_message}`);
+      throw new Error(`Google Maps Error: [${json.status}] ${json.error_message}`);
     }
-
     return json.results.map(format);
   }
 }
