@@ -24,6 +24,10 @@ class App extends React.Component {
     errObj: null,
   }
 
+  componentDidMount() {
+    Geocoder.init()
+  }
+
   geocodePosition = () => {
     this.setState({
       addressObj: null,
@@ -44,21 +48,6 @@ class App extends React.Component {
       .catch(err => this.setState({ errObj: err.message || err }));
   }
 
-  setLocale = () => {
-    Geocoder.setLanguage(this.state.localeInput);
-  }
-
-  setGoogleApiKey = () => {
-    Geocoder.fallbackToGoogle(this.state.apiKeyInput);
-    if (this.state.apiKeyInput && Platform.OS === 'ios') {
-      Geocoder.forceGoogleOnIos(true);
-    }
-  }
-
-  runTest = () => {
-
-  }
-
   render() {
     return (
       <>
@@ -69,24 +58,6 @@ class App extends React.Component {
             style={styles.scrollView}>
             <View style={styles.body}>
               <Button title="Run Test" onPress={this.runTest} />
-              <Text>Input Locale</Text>
-              <TextInput
-                style={styles.input}
-                value={this.state.localeInput}
-                onChangeText={(input) => this.setState({ localeInput: input })}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-              <Button title="Set Locale" onPress={this.setLocale} />
-              <Text>Input Google Maps API Key</Text>
-              <TextInput
-                style={styles.input}
-                value={this.state.apiKeyInput}
-                onChangeText={(input) => this.setState({ apiKeyInput: input })}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-              <Button title="Set Google Maps API Key" onPress={this.setGoogleApiKey} />
               <Text>Input Latitude</Text>
               <TextInput
                 style={styles.input}

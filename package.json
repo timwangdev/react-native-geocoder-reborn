@@ -31,16 +31,8 @@
     "react-native": ">=0.56.0"
   },
   "devDependencies": {
-    "appium": "^1.5.3",
-    "babel-core": "^6.11.4",
-    "babel-polyfill": "^6.9.1",
-    "babel-preset-react-native": "^4.0.1",
-    "chai": "^4.2.0",
-    "colors": "^1.1.2",
-    "mocha": "^6.1.4",
-    "proxyquire": "^2.1.1",
-    "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0",
-    "wd": "^1.11.3"
+    "@react-native-community/bob": "^0.10.0",
+    "detox": "^16.0.0",
+    "jest": "^25.1.0"
   }
 }

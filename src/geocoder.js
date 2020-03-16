@@ -53,25 +53,25 @@ export default {
   },
 
   async geocodePositionGoogle(position) {
-    _checkInit();
-    _checkApiKey();
+    this._checkInit();
+    this._checkApiKey();
     return GoogleApi.geocodePosition(this._apiKey, position, this._locale);
   },
 
   async geocodeAddressGoogle(address) {
-    _checkInit();
-    _checkApiKey();
+    this._checkInit();
+    this._checkApiKey();
     return GoogleApi.geocodeAddress(this._apiKey, address, this._locale);
   },
 
   async geocodeAddressInRegionGoogle(address, swLat, swLng, neLat, neLng) {
-    _checkInit();
-    _checkApiKey();
+    this._checkInit();
+    this._checkApiKey();
     return GoogleApi.geocodeAddressInRegion(this._apiKey, address, this._locale, swLat, swLng, neLat, neLng);
   },
 
   async geocodePosition(position) {
-    _checkInit();
+    this._checkInit();
     if (!position || (position.lat == null) || (position.lng == null)) {
       throw new Error("Invalid Position: `{lat, lng}` is required");
     }
@@ -97,21 +97,13 @@ export default {
   },
 
   async geocodeAddress(address) {
-    _checkInit();
+    this._checkInit();
     if (!address) {
       throw new Error("Invalid Address: `string` is required");
     }
 
     if (this._forceGoogleOnIos && Platform.OS === 'ios') {
       return this.geocodeAddressGoogle(address);
-    }
-
-    // If any of the parameters is not set for the region, we set them all to 0
-    if (swLat == null || swLng == null || neLat == null || neLng == null){
-        swLat = 0;
-        swLng = 0;
-        neLat = 0;
-        neLng = 0;
     }
 
     if (typeof RNGeocoder === 'undefined') {
@@ -131,7 +123,7 @@ export default {
   },
 
   async geocodeAddressInRegion(address, swLat = 0, swLng = 0, neLat = 0, neLng = 0) {
-    _checkInit();
+    this._checkInit();
     if (!address) {
       throw new Error("Invalid Address: `string` is required");
     }
