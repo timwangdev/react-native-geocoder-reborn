@@ -13,7 +13,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,47 +35,53 @@ public class RnGeocoderModule extends ReactContextBaseJavaModule {
         geocoder = new Geocoder(getReactApplicationContext(), new Locale(locale));
         this.maxResults = maxResults;
         if (!geocoder.isPresent()) {
-          promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
+          promise.reject("NOT_AVAILABLE", "Geocoder not available on this platform.");
           return;
         }
     }
 
     @ReactMethod
-    public void geocodeAddress(String addressName, float swLat, float swLng, float neLat, float neLng, String language, Promise promise) {
+    public void geocodeAddress(String addressName, Promise promise) {
         try {
-            List<Address> addresses = geocoder.getFromLocationName(addressName, 2, swLat, swLng, neLat, neLng, maxResults);
+            List<Address> addresses = geocoder.getFromLocationName(addressName, maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
-                promise.reject("NOT_AVAILABLE", "Geocoder returned an empty list");
+                promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.");
             }
         }
-        catch (IOException e) {
-            promise.reject(e);
+        catch (Exception e) {
+            promise.reject("NATIVE_ERROR", e);
+        }
+    }
+
+    @ReactMethod
+    public void geocodeAddressInRegion(String addressName, float swLat, float swLng, float neLat, float neLng, Promise promise) {
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(addressName, maxResults, swLat, swLng, neLat, neLng);
+            if(addresses != null && addresses.size() > 0) {
+                promise.resolve(transform(addresses));
+            } else {
+                promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.");
+            }
+        }
+        catch (Exception e) {
+            promise.reject("NATIVE_ERROR", e);
         }
     }
 
     @ReactMethod
     public void geocodePosition(ReadableMap position, String language, Promise promise) {
-        if (geocoder == null) {
-            geocoder = new Geocoder(getReactApplicationContext(), new Locale(language));
-        }
-
-        if (!geocoder.isPresent()) {
-            promise.reject("NOT_AVAILABLE", "Geocoder not available for this platform");
-            return;
-        }
-
         try {
             List<Address> addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults);
             if(addresses != null && addresses.size() > 0) {
                 promise.resolve(transform(addresses));
             } else {
-                promise.reject("NOT_AVAILABLE", "Geocoder returned an empty list");
+                promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.");
             }
         }
-        catch (IOException e) {
-            promise.reject(e);
+        catch (Exception e) {
+            promise.reject("NATIVE_ERROR", e);
         }
     }
 

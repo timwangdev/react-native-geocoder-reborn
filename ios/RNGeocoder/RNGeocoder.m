@@ -21,15 +21,18 @@
 
 RCT_EXPORT_MODULE();
 
+RCT_EXPORT_METHOD(init:(NSString *)locale
+                  maxResults:(NSInteger *) maxResults)
+{
+    self.geocoder = [[CLGeocoder alloc] init];
+    self.locale = [NSLocale localeWithLocaleIdentifier:locale];
+    self.maxResults = maxResults;
+}
+
 RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
-                  language:(NSString *)language
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    if (!self.geocoder) {
-        self.geocoder = [[CLGeocoder alloc] init];
-    }
-
     if (self.geocoder.geocoding) {
         [self.geocoder cancelGeocode];
     }
@@ -37,17 +40,17 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
     CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
         if (error) {
             if (placemarks.count == 0) {
-                return reject(@"NOT_FOUND", @"geocodePosition failed", error);
+                return reject(@"EMPTY_RESULT", @"Geocoder returned an empty list.", error);
             }
             
-            return reject(@"ERROR", @"geocodePosition failed", error);
+            return reject(@"NATIVE_ERROR", @"reverseGeocodeLocation failed.", error);
         }
         resolve([self placemarksToDictionary:placemarks]);
     };
     
     if (@available(iOS 11.0, *)) {
         [self.geocoder reverseGeocodeLocation:location
-                              preferredLocale:[NSLocale localeWithLocaleIdentifier:language]
+                              preferredLocale:self.locale
                             completionHandler:handler];
     } else {
         [self.geocoder reverseGeocodeLocation:location completionHandler:handler];
@@ -55,45 +58,66 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 }
 
 RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
-                  withSWLat:(CGFloat)swLat
-                  withSWLng:(CGFloat)swLng
-                  withNELat:(CGFloat)neLat
-                  withNELng:(CGFloat)neLng
-                  language:(NSString *)language
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    if (!self.geocoder) {
-        self.geocoder = [[CLGeocoder alloc] init];
-    }
-
     if (self.geocoder.geocoding) {
       [self.geocoder cancelGeocode];
     }
 
     CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
-    CLRegion* region;
-    if (swLat == 0 || swLng == 0 || neLat == 0 || neLng == 0){
-        region = nil;
-    }else{
-        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(swLat + (neLat-swLat) / 2, swLng + (neLng-swLng) / 2);
-        //Computing the radius based on lat delta, since 1 lat = 111 km no matter the location
-        float latDelta = neLat - swLat;
-        float radiusLat = (latDelta/2);
-        float radius = radiusLat * 111000;
-        region = [[CLCircularRegion alloc] initWithCenter:center radius:radius identifier:@"Search Radius"];
-    }
         if (error) {
             if (placemarks.count == 0) {
-              return reject(@"NOT_FOUND", @"geocodeAddress failed", error);
+              return reject(@"NOT_FOUND", @"Geocoder returned an empty list.", error);
             }
-            return reject(@"ERROR", @"geocodeAddress failed", error);
+            return reject(@"NATIVE_ERROR", @"geocodeAddressString failed.", error);
         }
         resolve([self placemarksToDictionary:placemarks]);
     };
 
     if (@available(iOS 11.0, *)) {
-        [self.geocoder geocodeAddressString:address inRegion:region preferredLocale:[NSLocale localeWithLocaleIdentifier:language] completionHandler:handler];
+        [self.geocoder geocodeAddressString:address inRegion:nil preferredLocale:self.locale  completionHandler:handler];
+    } else {
+        [self.geocoder geocodeAddressString:address completionHandler:handler];
+    }
+}
+
+RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
+                  swLat:(CGFloat)swLat
+                  swLng:(CGFloat)swLng
+                  neLat:(CGFloat)neLat
+                  neLng:(CGFloat)neLng
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    if (self.geocoder.geocoding) {
+      [self.geocoder cancelGeocode];
+    }
+
+    CLRegion* region;
+    if (swLat == 0 || swLng == 0 || neLat == 0 || neLng == 0){
+        region = nil;
+    } else {
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(swLat + (neLat-swLat) / 2, swLng + (neLng-swLng) / 2);
+        //Computing the radius based on lat delta, since 1 lat ~= 111 km no matter the location
+        float latDelta = neLat - swLat;
+        float radiusLat = (latDelta/2);
+        float radius = radiusLat * 111000;
+        region = [[CLCircularRegion alloc] initWithCenter:center radius:radius identifier:@"Search Radius"];
+    }
+    
+    CLGeocodeCompletionHandler handler = ^void(NSArray< CLPlacemark *> *placemarks, NSError *error) {
+        if (error) {
+            if (placemarks.count == 0) {
+              return reject(@"NOT_FOUND", @"Geocoder returned an empty list.", error);
+            }
+            return reject(@"NATIVE_ERROR", @"geocodeAddressString failed.", error);
+        }
+        resolve([self placemarksToDictionary:placemarks]);
+    };
+
+    if (@available(iOS 11.0, *)) {
+        [self.geocoder geocodeAddressString:address inRegion:region preferredLocale:self.locale completionHandler:handler];
     } else {
         [self.geocoder geocodeAddressString:address completionHandler:handler];
     }

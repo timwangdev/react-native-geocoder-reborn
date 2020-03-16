@@ -1,4 +1,8 @@
 e2e/GeocoderE2EApp
+_example
+
+.project
+.settings
 
 # OSX
 #
@@ -74,8 +78,3 @@ proguard/
 
 # Android Studio captures folder
 captures/
-
-_example
-
-.project
-.settings

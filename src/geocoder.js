@@ -5,12 +5,12 @@ const { RNGeocoder } = NativeModules;
 
 export default {
 
-  _inited = false,
-  _apiKey = null,
-  _locale = 'en',
-  _fallbackToGoogle = false,
-  _forceGoogleOnIos = false,
-  _maxResults = 5,
+  _inited: false,
+  _apiKey: null,
+  _locale: 'en',
+  _fallbackToGoogle: false,
+  _forceGoogleOnIos: false,
+  _maxResults: 5,
 
   _checkInit() {
     if (!this._inited) {
@@ -19,6 +19,11 @@ export default {
   },
 
   async init(options) {
+    if (this._inited) {
+      __DEV__ && console.warn('Geocoder Init: You have already initialized this module. Aborted.');
+      return;
+    }
+
     if (options) {
       if (options.apiKey != null) { this._apiKey = options.apiKey; }
       if (options.locale != null) { this._locale = options.locale; }
@@ -94,6 +99,7 @@ export default {
     if (this._forceGoogleOnIos && Platform.OS === 'ios') {
       return this.geocodeAddressGoogle(address);
     }
+
     // If any of the parameters is not set for the region, we set them all to 0
     if (swLat == null || swLng == null || neLat == null || neLng == null){
         swLat = 0;
@@ -112,6 +118,32 @@ export default {
 
     try {
       return await RNGeocoder.geocodeAddress(address);
+    } catch (err) {
+      if (!this._fallbackToGoogle) { throw err; }
+      return this.geocodeAddressGoogle(address);
+    }
+  },
+
+  async geocodeAddressInRegion(address, swLat = 0, swLng = 0, neLat = 0, neLng = 0) {
+    _checkInit();
+    if (!address) {
+      throw new Error("Invalid Address: `string` is required");
+    }
+
+    if (this._forceGoogleOnIos && Platform.OS === 'ios') {
+      return this.geocodeAddressGoogle(address);
+    }
+
+    if (typeof RNGeocoder === 'undefined') {
+      if (!this._fallbackToGoogle) {
+        throw new Error('Missing Native Module: Please check the module linking, '
+          + 'or set `fallbackToGoogle` in the init options.');
+      }
+      return this.geocodeAddressGoogle(address);
+    }
+
+    try {
+      return await RNGeocoder.geocodeAddressInRegion(address, swLat, swLng, neLat, neLng);
     } catch (err) {
       if (!this._fallbackToGoogle) { throw err; }
       return this.geocodeAddressGoogle(address);
