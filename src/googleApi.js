@@ -66,6 +66,11 @@ export default {
     return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}&language=${language}`);
   },
 
+  geocodeAddressInRegion(apiKey, address, language, swLat, swLng, neLat, neLng) {
+    return this.geocodeRequest(`${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}`
+      + `&bounds=${swLat},${swLng}|${neLat},${neLng}&language=${language}`);
+  },
+
   async geocodeRequest(url) {
     const res = await fetch(url);
     const json = await res.json();
