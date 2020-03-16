@@ -10,6 +10,8 @@ Geocoding services for react native.
 
 The project is built on top of [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder), due to original project is not likely being maintained. This fork should be a drop-in replacement. Some bug fixing and TypeScript support have being added.
 
+> ### Version 1.0 is coming ([Roadmap](https://github.com/timwangdev/react-native-geocoder-reborn/issues/17))! Please leave a comment if you have any thoughts.
+
 ## Version table
 | Geocoder Version | RN |
 |--|--|
