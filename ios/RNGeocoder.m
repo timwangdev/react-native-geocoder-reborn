@@ -82,7 +82,7 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
     }
 }
 
-RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
+RCT_EXPORT_METHOD(geocodeAddressWithBounds:(NSString *)address
                   swLat:(CGFloat)swLat
                   swLng:(CGFloat)swLng
                   neLat:(CGFloat)neLat

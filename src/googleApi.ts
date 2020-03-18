@@ -78,7 +78,7 @@ export default {
     bounds: Bounds,
     language: string
   ) {
-    const { sw, ne } = bounds;
+    let { sw, ne } = bounds;
     return this.geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}` +
         `&bounds=${sw.lat},${sw.lng}|${ne.lat},${ne.lng}&language=${language}`
@@ -86,8 +86,8 @@ export default {
   },
 
   async geocodeRequest(url: string) {
-    const res = await fetch(url);
-    const json = await res.json();
+    let res = await fetch(url);
+    let json = await res.json();
 
     if (!json.results || json.status !== 'OK') {
       throw new Error(

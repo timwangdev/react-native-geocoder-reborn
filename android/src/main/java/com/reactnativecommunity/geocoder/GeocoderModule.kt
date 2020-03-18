@@ -49,7 +49,7 @@ class RNGeocoderModule(reactContext: ReactApplicationContext) : ReactContextBase
     }
 
     @ReactMethod
-    fun geocodeAddressInRegion(addressName: String, swLat: Float, swLng: Float, neLat: Float, neLng: Float, promise: Promise) {
+    fun geocodeAddressWithBounds(addressName: String, swLat: Float, swLng: Float, neLat: Float, neLng: Float, promise: Promise) {
         try {
             val addresses = geocoder.getFromLocationName(addressName, maxResults, swLat, swLng, neLat, neLng)
             if (addresses != null && addresses.size > 0) {
