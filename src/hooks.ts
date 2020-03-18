@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Geocoder from './geocoder';
-import { Position, Bounds, GeocodingObject } from './types';
+import { GeocodingObject } from './types';
 
-export const useGeocodePosition = (position: Position) => {
+export const useGeocodePosition = (lat: number, lng: number) => {
   let [geocodePositions, setGeocodePositions] = useState<GeocodingObject[]>([]);
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState<Error | null>(null);
@@ -11,19 +11,19 @@ export const useGeocodePosition = (position: Position) => {
     (async () => {
       setLoading(true);
       try {
-        let list = await Geocoder.geocodePosition(position);
+        let list = await Geocoder.geocodePosition({ lat, lng });
         setGeocodePositions(list);
       } catch (err) {
         setError(err);
       }
       setLoading(false);
     })();
-  }, [position]);
+  }, [lat, lng]);
 
   return { list: geocodePositions, error, loading };
 };
 
-export const useGeocodeAddress = (address: string, bounds?: Bounds) => {
+export const useGeocodeAddress = (address: string) => {
   let [geocodePositions, setGeocodePositions] = useState<GeocodingObject[]>([]);
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState<Error | null>(null);
@@ -32,14 +32,44 @@ export const useGeocodeAddress = (address: string, bounds?: Bounds) => {
     (async () => {
       setLoading(true);
       try {
-        let list = await Geocoder.geocodeAddress(address, bounds);
+        let list = await Geocoder.geocodeAddress(address);
         setGeocodePositions(list);
       } catch (err) {
         setError(err);
       }
       setLoading(false);
     })();
-  }, [address, bounds]);
+  }, [address]);
+
+  return { list: geocodePositions, error, loading };
+};
+
+export const useGeocodeAddressWithBounds = (
+  address: string,
+  swLat: number,
+  swLng: number,
+  neLat: number,
+  neLng: number
+) => {
+  let [geocodePositions, setGeocodePositions] = useState<GeocodingObject[]>([]);
+  let [loading, setLoading] = useState(false);
+  let [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        let list = await Geocoder.geocodeAddress(address, {
+          sw: { lat: swLat, lng: swLng },
+          ne: { lat: neLat, lng: neLng },
+        });
+        setGeocodePositions(list);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    })();
+  }, [address, swLat, swLng, neLat, neLng]);
 
   return { list: geocodePositions, error, loading };
 };
