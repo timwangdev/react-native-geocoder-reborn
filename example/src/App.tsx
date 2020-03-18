@@ -59,7 +59,6 @@ export default function App() {
           <Button title="Geocode Position" onPress={geocodePosition} />
           <Text>Input Address</Text>
           <TextInput style={styles.input} value={addr} onChangeText={setAddr} />
-          <Button title="Geocode Address" onPress={geocodeAddress} />
           <Text>Input South Bound Latitude</Text>
           <TextInput
             style={styles.input}
@@ -84,6 +83,7 @@ export default function App() {
             value={neLng}
             onChangeText={setNeLng}
           />
+          <Button title="Geocode Address" onPress={geocodeAddress} />
           <Text>Success Output:</Text>
           <Text style={styles.resText}>
             {JSON.stringify(result, undefined, 2)}
@@ -107,12 +107,15 @@ const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 8,
     backgroundColor: '#eee',
+    marginBottom: 12,
   },
   resText: {
+    padding: 8,
     backgroundColor: '#ccffcc',
     fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
   },
   errText: {
+    padding: 8,
     backgroundColor: '#ffcccc',
     fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace',
   },

@@ -11,8 +11,8 @@ export const useGeocodePosition = (lat: number, lng: number) => {
     (async () => {
       setLoading(true);
       try {
-        let list = await Geocoder.geocodePosition({ lat, lng });
-        setGeocodePositions(list);
+        let result = await Geocoder.geocodePosition({ lat, lng });
+        setGeocodePositions(result);
       } catch (err) {
         setError(err);
       }
@@ -20,7 +20,7 @@ export const useGeocodePosition = (lat: number, lng: number) => {
     })();
   }, [lat, lng]);
 
-  return { list: geocodePositions, error, loading };
+  return { result: geocodePositions, error, loading };
 };
 
 export const useGeocodeAddress = (address: string) => {
@@ -32,8 +32,8 @@ export const useGeocodeAddress = (address: string) => {
     (async () => {
       setLoading(true);
       try {
-        let list = await Geocoder.geocodeAddress(address);
-        setGeocodePositions(list);
+        let result = await Geocoder.geocodeAddress(address);
+        setGeocodePositions(result);
       } catch (err) {
         setError(err);
       }
@@ -41,7 +41,7 @@ export const useGeocodeAddress = (address: string) => {
     })();
   }, [address]);
 
-  return { list: geocodePositions, error, loading };
+  return { result: geocodePositions, error, loading };
 };
 
 export const useGeocodeAddressWithBounds = (
@@ -59,11 +59,11 @@ export const useGeocodeAddressWithBounds = (
     (async () => {
       setLoading(true);
       try {
-        let list = await Geocoder.geocodeAddress(address, {
+        let result = await Geocoder.geocodeAddress(address, {
           sw: { lat: swLat, lng: swLng },
           ne: { lat: neLat, lng: neLng },
         });
-        setGeocodePositions(list);
+        setGeocodePositions(result);
       } catch (err) {
         setError(err);
       }
@@ -71,5 +71,5 @@ export const useGeocodeAddressWithBounds = (
     })();
   }, [address, swLat, swLng, neLat, neLng]);
 
-  return { list: geocodePositions, error, loading };
+  return { result: geocodePositions, error, loading };
 };

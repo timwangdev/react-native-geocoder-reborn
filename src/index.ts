@@ -1,7 +1,11 @@
 import geocoder from './geocoder';
-import { useGeocodeAddress, useGeocodePosition } from './hooks';
+import {
+  useGeocodePosition,
+  useGeocodeAddress,
+  useGeocodeAddressWithBounds,
+} from './hooks';
 import { Position, Bounds, GeocoderOptions, GeocodingObject } from './types';
 
 export { Position, Bounds, GeocoderOptions, GeocodingObject };
-export { useGeocodeAddress, useGeocodePosition };
+export { useGeocodePosition, useGeocodeAddress, useGeocodeAddressWithBounds };
 export default geocoder;

@@ -2,6 +2,18 @@ import { Position, Bounds, GeocodingObject } from './types';
 
 const GOOGLE_URL = 'https://maps.google.com/maps/api/geocode/json';
 
+async function geocodeRequest(url: string) {
+  let res = await fetch(url);
+  let json = await res.json();
+
+  if (!json.results || json.status !== 'OK') {
+    throw new Error(
+      `Google Maps Error: [${json.status}] ${json.error_message}`
+    );
+  }
+  return json.results.map(format) as GeocodingObject[];
+}
+
 function format(raw: any) {
   const geocodeObj = {
     position: {},
@@ -59,13 +71,13 @@ function format(raw: any) {
 
 export default {
   geocodePosition(apiKey: string, position: Position, language: string) {
-    return this.geocodeRequest(
+    return geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`
     );
   },
 
   geocodeAddress(apiKey: string, address: string, language: string) {
-    return this.geocodeRequest(
+    return geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(
         address
       )}&language=${language}`
@@ -79,21 +91,9 @@ export default {
     language: string
   ) {
     let { sw, ne } = bounds;
-    return this.geocodeRequest(
+    return geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}` +
         `&bounds=${sw.lat},${sw.lng}|${ne.lat},${ne.lng}&language=${language}`
     );
-  },
-
-  async geocodeRequest(url: string) {
-    let res = await fetch(url);
-    let json = await res.json();
-
-    if (!json.results || json.status !== 'OK') {
-      throw new Error(
-        `Google Maps Error: [${json.status}] ${json.error_message}`
-      );
-    }
-    return json.results.map(format) as GeocodingObject[];
   },
 };

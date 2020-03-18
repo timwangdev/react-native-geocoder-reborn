@@ -1,8 +1,7 @@
-import { NativeModules, Platform } from 'react-native';
-import GoogleApi from './googleApi';
+import { Platform } from 'react-native';
+import nativeImpl from './native';
+import googleApi from './googleApi';
 import { Position, Bounds, GeocoderOptions, GeocodingObject } from './types';
-
-const { RNGeocoder } = NativeModules;
 
 let inited = false;
 let apiKey: string;
@@ -60,28 +59,28 @@ async function init(options: GeocoderOptions = {}) {
     }
   }
 
-  if (typeof RNGeocoder === 'undefined') {
+  if (typeof nativeImpl === 'undefined') {
     inited = true;
     return;
   }
 
-  await RNGeocoder.init(locale, maxResults);
+  await nativeImpl.init(locale, maxResults);
   inited = true;
 }
 
 async function geocodePositionGoogle(position: Position) {
   assertInited();
   assertApiKey();
-  return GoogleApi.geocodePosition(apiKey, position, locale);
+  return googleApi.geocodePosition(apiKey, position, locale);
 }
 
 async function geocodeAddressGoogle(address: string, bounds?: Bounds) {
   assertInited();
   assertApiKey();
   if (!bounds) {
-    return GoogleApi.geocodeAddress(apiKey, address, locale);
+    return googleApi.geocodeAddress(apiKey, address, locale);
   }
-  return GoogleApi.geocodeAddressWithBounds(apiKey, address, bounds, locale);
+  return googleApi.geocodeAddressWithBounds(apiKey, address, bounds, locale);
 }
 
 async function geocodePosition(position: Position): Promise<GeocodingObject[]> {
@@ -94,13 +93,13 @@ async function geocodePosition(position: Position): Promise<GeocodingObject[]> {
     return geocodePositionGoogle(position);
   }
 
-  if (typeof RNGeocoder === 'undefined') {
+  if (typeof nativeImpl === 'undefined') {
     assertFallbackToGoogle();
     return geocodePositionGoogle(position);
   }
 
   try {
-    return RNGeocoder.geocodePosition(position);
+    return await nativeImpl.geocodePosition(position);
   } catch (err) {
     assertFallbackToGoogle(err);
     return geocodePositionGoogle(position);
@@ -120,17 +119,17 @@ async function geocodeAddress(
     return geocodeAddressGoogle(address);
   }
 
-  if (typeof RNGeocoder === 'undefined') {
+  if (typeof nativeImpl === 'undefined') {
     assertFallbackToGoogle();
     return geocodeAddressGoogle(address);
   }
 
   try {
     if (!bounds) {
-      return await RNGeocoder.geocodeAddress(address);
+      return await nativeImpl.geocodeAddress(address);
     }
     const { sw, ne } = bounds;
-    return await RNGeocoder.geocodeAddressWithBounds(
+    return await nativeImpl.geocodeAddressWithBounds(
       address,
       sw.lat,
       sw.lng,
@@ -139,8 +138,18 @@ async function geocodeAddress(
     );
   } catch (err) {
     assertFallbackToGoogle(err);
-    return geocodeAddressGoogle(address);
+    return geocodeAddressGoogle(address, bounds);
   }
+}
+
+// Test-only
+function resetModule() {
+  inited = false;
+  apiKey = '';
+  locale = 'en';
+  fallbackToGoogle = false;
+  forceGoogleOnIos = false;
+  maxResults = 5;
 }
 
 export default {
@@ -149,4 +158,5 @@ export default {
   geocodePositionGoogle,
   geocodeAddress,
   geocodeAddressGoogle,
+  resetModule,
 };
