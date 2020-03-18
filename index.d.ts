@@ -1,4 +1,4 @@
-declare module "react-native-geocoder-reborn" {
+declare module 'react-native-geocoder-reborn' {
   export interface Position {
     lat: number;
     lng: number;

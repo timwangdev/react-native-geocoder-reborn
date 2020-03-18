@@ -7,31 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BF8FCF981BFFB184000FCD37 /* RNGeocoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BF8FCF971BFFB184000FCD37 /* RNGeocoder.h */; };
-		BF8FCF9A1BFFB184000FCD37 /* RNGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = BF8FCF991BFFB184000FCD37 /* RNGeocoder.m */; };
+		B3E7B58A1CC2AC0600A0062D /* RNGeocoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNGeocoder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BF8FCF921BFFB184000FCD37 /* CopyFiles */ = {
+		58B511D91A9E6C8500147676 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				BF8FCF981BFFB184000FCD37 /* RNGeocoder.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BF8FCF941BFFB184000FCD37 /* libRNGeocoder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNGeocoder.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF8FCF971BFFB184000FCD37 /* RNGeocoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNGeocoder.h; sourceTree = "<group>"; };
-		BF8FCF991BFFB184000FCD37 /* RNGeocoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNGeocoder.m; sourceTree = "<group>"; };
+		134814201AA4EA6300B7C361 /* libGeocoder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGeocoder.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3E7B5881CC2AC0600A0062D /* RNGeocoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNGeocoder.h; sourceTree = "<group>"; };
+		B3E7B5891CC2AC0600A0062D /* RNGeocoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNGeocoder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BF8FCF911BFFB184000FCD37 /* Frameworks */ = {
+		58B511D81A9E6C8500147676 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,95 +39,87 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BF8FCF8B1BFFB184000FCD37 = {
+		134814211AA4EA7D00B7C361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF8FCF961BFFB184000FCD37 /* RNGeocoder */,
-				BF8FCF951BFFB184000FCD37 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		BF8FCF951BFFB184000FCD37 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				BF8FCF941BFFB184000FCD37 /* libRNGeocoder.a */,
+				134814201AA4EA6300B7C361 /* libGeocoder.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BF8FCF961BFFB184000FCD37 /* RNGeocoder */ = {
+		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				BF8FCF971BFFB184000FCD37 /* RNGeocoder.h */,
-				BF8FCF991BFFB184000FCD37 /* RNGeocoder.m */,
+				B3E7B5881CC2AC0600A0062D /* RNGeocoder.h */,
+				B3E7B5891CC2AC0600A0062D /* RNGeocoder.m */,
+				134814211AA4EA7D00B7C361 /* Products */,
 			);
-			path = RNGeocoder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BF8FCF931BFFB184000FCD37 /* RNGeocoder */ = {
+		58B511DA1A9E6C8500147676 /* RNGeocoder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF8FCF9D1BFFB184000FCD37 /* Build configuration list for PBXNativeTarget "RNGeocoder" */;
+			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "Geocoder" */;
 			buildPhases = (
-				BF8FCF901BFFB184000FCD37 /* Sources */,
-				BF8FCF911BFFB184000FCD37 /* Frameworks */,
-				BF8FCF921BFFB184000FCD37 /* CopyFiles */,
+				58B511D71A9E6C8500147676 /* Sources */,
+				58B511D81A9E6C8500147676 /* Frameworks */,
+				58B511D91A9E6C8500147676 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = RNGeocoder;
-			productName = RNGeocoder;
-			productReference = BF8FCF941BFFB184000FCD37 /* libRNGeocoder.a */;
+			productName = RCTDataManager;
+			productReference = 134814201AA4EA6300B7C361 /* libGeocoder.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BF8FCF8C1BFFB184000FCD37 /* Project object */ = {
+		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = devfd;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
-					BF8FCF931BFFB184000FCD37 = {
-						CreatedOnToolsVersion = 7.1.1;
+					58B511DA1A9E6C8500147676 = {
+						CreatedOnToolsVersion = 6.1.1;
 					};
 				};
 			};
-			buildConfigurationList = BF8FCF8F1BFFB184000FCD37 /* Build configuration list for PBXProject "RNGeocoder" */;
+			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "Geocoder" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = BF8FCF8B1BFFB184000FCD37;
-			productRefGroup = BF8FCF951BFFB184000FCD37 /* Products */;
+			mainGroup = 58B511D21A9E6C8500147676;
+			productRefGroup = 58B511D21A9E6C8500147676;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BF8FCF931BFFB184000FCD37 /* RNGeocoder */,
+				58B511DA1A9E6C8500147676 /* RNGeocoder */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BF8FCF901BFFB184000FCD37 /* Sources */ = {
+		58B511D71A9E6C8500147676 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF8FCF9A1BFFB184000FCD37 /* RNGeocoder.m in Sources */,
+				B3E7B58A1CC2AC0600A0062D /* RNGeocoder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		BF8FCF9B1BFFB184000FCD37 /* Debug */ = {
+		58B511ED1A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -141,14 +131,12 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -156,9 +144,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -169,6 +155,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -182,7 +169,7 @@
 			};
 			name = Debug;
 		};
-		BF8FCF9C1BFFB184000FCD37 /* Release */ = {
+		58B511EE1A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -194,14 +181,12 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -209,9 +194,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -229,22 +212,34 @@
 			};
 			name = Release;
 		};
-		BF8FCF9E1BFFB184000FCD37 /* Debug */ = {
+		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../react-native/React/**";
+				HEADER_SEARCH_PATHS = (
+				"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RNGeocoder;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		BF8FCF9F1BFFB184000FCD37 /* Release */ = {
+		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../react-native/React/**";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RNGeocoder;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -252,25 +247,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BF8FCF8F1BFFB184000FCD37 /* Build configuration list for PBXProject "RNGeocoder" */ = {
+		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "Geocoder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BF8FCF9B1BFFB184000FCD37 /* Debug */,
-				BF8FCF9C1BFFB184000FCD37 /* Release */,
+				58B511ED1A9E6C8500147676 /* Debug */,
+				58B511EE1A9E6C8500147676 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF8FCF9D1BFFB184000FCD37 /* Build configuration list for PBXNativeTarget "RNGeocoder" */ = {
+		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "Geocoder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BF8FCF9E1BFFB184000FCD37 /* Debug */,
-				BF8FCF9F1BFFB184000FCD37 /* Release */,
+				58B511F01A9E6C8500147676 /* Debug */,
+				58B511F11A9E6C8500147676 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BF8FCF8C1BFFB184000FCD37 /* Project object */;
+	rootObject = 58B511D31A9E6C8500147676 /* Project object */;
 }
