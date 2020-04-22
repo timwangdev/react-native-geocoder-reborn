@@ -60,8 +60,10 @@ export const useGeocodeAddressWithBounds = (
       setLoading(true);
       try {
         let result = await Geocoder.geocodeAddress(address, {
-          sw: { lat: swLat, lng: swLng },
-          ne: { lat: neLat, lng: neLng },
+          bounds: {
+            sw: { lat: swLat, lng: swLng },
+            ne: { lat: neLat, lng: neLng },
+          },
         });
         setGeocodePositions(result);
       } catch (err) {

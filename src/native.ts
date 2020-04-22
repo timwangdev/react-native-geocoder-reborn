@@ -14,6 +14,12 @@ interface NativeImpl {
     neLat: number,
     neLng: number
   ) => Promise<GeocodingObject[]>;
+  geocodeAddressInRegion: (
+    address: string,
+    lat: number,
+    lng: number,
+    radius: number
+  ) => Promise<GeocodingObject[]>;
 }
 
 export default nativeGeocoder as NativeImpl;

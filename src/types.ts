@@ -8,6 +8,13 @@ export interface Bounds {
   ne: Position;
 }
 
+export interface Region {
+  center: Position;
+
+  // Unit: km
+  radius: number;
+}
+
 export interface GeocodingObject {
   position: Position;
 
@@ -38,9 +45,11 @@ export interface GeocodingObject {
 }
 
 export interface GeocoderOptions {
-  apiKey?: string | null;
+  apiKey?: string;
+  bounds?: Bounds;
   locale?: string;
   maxResults?: number;
+  regionIos?: Region;
   fallbackToGoogle?: boolean;
   forceGoogleOnIos?: boolean;
 }

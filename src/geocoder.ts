@@ -1,162 +1,141 @@
 import { Platform } from 'react-native';
 import nativeImpl from './native';
 import googleApi from './googleApi';
-import { Position, Bounds, GeocoderOptions, GeocodingObject } from './types';
+import { Position, GeocoderOptions, GeocodingObject } from './types';
 
-let inited = false;
-let apiKey: string;
-let locale = 'en';
-let fallbackToGoogle = false;
-let forceGoogleOnIos = false;
-let maxResults = 5;
+let defaultOptions = {
+  locale: 'en',
+  fallbackToGoogle: false,
+  forceGoogleOnIos: false,
+  maxResults: 5,
+};
 
-function assertInited() {
-  if (!inited) {
-    throw new Error('The module is not initialized.');
-  }
-}
-
-function assertApiKey() {
+function getApiKey(apiKey?: string) {
   if (!apiKey) {
     throw new Error(
-      'Invalid API Key: `apiKey` is required in the init options ' +
-        'for using Google Maps API.'
+      'Invalid API Key: `apiKey` is required for using Google Maps API.'
     );
   }
+  return apiKey;
 }
 
-function assertFallbackToGoogle(err?: Error) {
-  if (!fallbackToGoogle) {
-    throw err ||
-      new Error(
-        'Missing Native Module: Please check the module linking, ' +
-          'or set `fallbackToGoogle` in the init options.'
-      );
-  }
-}
-
-async function init(options: GeocoderOptions = {}) {
-  if (inited) {
-    __DEV__ &&
-      console.warn('Geocoder Init: You have already initialized this module.');
-  }
-
-  if (options) {
-    if (options.apiKey != null) {
-      apiKey = options.apiKey;
-    }
-    if (options.locale != null) {
-      locale = options.locale;
-    }
-    if (options.fallbackToGoogle != null) {
-      fallbackToGoogle = options.fallbackToGoogle;
-    }
-    if (options.forceGoogleOnIos != null) {
-      forceGoogleOnIos = options.forceGoogleOnIos;
-    }
-    if (options.maxResults != null) {
-      maxResults = options.maxResults;
-    }
-  }
-
-  if (typeof nativeImpl === 'undefined') {
-    inited = true;
-    return;
-  }
-
-  await nativeImpl.init(locale, maxResults);
-  inited = true;
-}
-
-async function geocodePositionGoogle(position: Position) {
-  assertInited();
-  assertApiKey();
+async function geocodePositionGoogle(
+  position: Position,
+  options: GeocoderOptions = {}
+) {
+  let apiKey = getApiKey(options.apiKey);
+  let locale = options.locale || defaultOptions.locale;
   return googleApi.geocodePosition(apiKey, position, locale);
 }
 
-async function geocodeAddressGoogle(address: string, bounds?: Bounds) {
-  assertInited();
-  assertApiKey();
-  if (!bounds) {
-    return googleApi.geocodeAddress(apiKey, address, locale);
+async function geocodeAddressGoogle(
+  address: string,
+  options: GeocoderOptions = {}
+) {
+  let apiKey = getApiKey(options.apiKey);
+  let locale = options.locale || defaultOptions.locale;
+  if (options.bounds) {
+    // Use rectangle bounds for Google Maps api
+    return googleApi.geocodeAddressWithBounds(
+      apiKey,
+      address,
+      options.bounds,
+      locale
+    );
   }
-  return googleApi.geocodeAddressWithBounds(apiKey, address, bounds, locale);
+  return googleApi.geocodeAddress(apiKey, address, locale);
 }
 
-async function geocodePosition(position: Position): Promise<GeocodingObject[]> {
-  assertInited();
+async function geocodePosition(
+  position: Position,
+  options: GeocoderOptions = {}
+): Promise<GeocodingObject[]> {
   if (!position || position.lat == null || position.lng == null) {
     throw new Error('Invalid Position: `{lat, lng}` is required');
   }
 
-  if (forceGoogleOnIos && Platform.OS === 'ios') {
+  if (options.forceGoogleOnIos && Platform.OS === 'ios') {
     return geocodePositionGoogle(position);
   }
 
-  if (typeof nativeImpl === 'undefined') {
-    assertFallbackToGoogle();
-    return geocodePositionGoogle(position);
+  if (nativeImpl == null) {
+    if (options.fallbackToGoogle) {
+      return geocodePositionGoogle(position);
+    }
+    throw new Error(
+      'Missing Native Module: Please check the module linking, ' +
+        'or set `fallbackToGoogle` in the init options.'
+    );
   }
 
   try {
     return await nativeImpl.geocodePosition(position);
   } catch (err) {
-    assertFallbackToGoogle(err);
-    return geocodePositionGoogle(position);
+    if (options.fallbackToGoogle) {
+      return geocodePositionGoogle(position, options);
+    }
+    throw new Error('Native Error: ' + err?.message || 'Unknown Execption.');
   }
 }
 
 async function geocodeAddress(
   address: string,
-  bounds?: Bounds
+  options: GeocoderOptions = {}
 ): Promise<GeocodingObject[]> {
-  assertInited();
+  let { bounds, regionIos } = options;
   if (!address) {
     throw new Error('Invalid Address: `string` is required');
   }
 
-  if (forceGoogleOnIos && Platform.OS === 'ios') {
+  if (options.forceGoogleOnIos && Platform.OS === 'ios') {
     return geocodeAddressGoogle(address);
   }
 
-  if (typeof nativeImpl === 'undefined') {
-    assertFallbackToGoogle();
-    return geocodeAddressGoogle(address);
+  if (nativeImpl == null) {
+    if (options.fallbackToGoogle) {
+      return geocodeAddressGoogle(address, options);
+    }
+    throw new Error(
+      'Missing Native Module: Please check the module linking, ' +
+        'or set `fallbackToGoogle` in the init options.'
+    );
   }
 
   try {
-    if (!bounds) {
+    if (regionIos && Platform.OS === 'ios') {
+      // Use round region query for iOS
+      let { center, radius } = regionIos;
+      return await nativeImpl.geocodeAddressInRegion(
+        address,
+        center.lat,
+        center.lng,
+        radius
+      );
+    } else if (bounds) {
+      // Use rectangle bounds for Android
+      let { sw, ne } = bounds;
+      return await nativeImpl.geocodeAddressWithBounds(
+        address,
+        sw.lat,
+        sw.lng,
+        ne.lat,
+        ne.lng
+      );
+    } else {
+      // Normal query
       return await nativeImpl.geocodeAddress(address);
     }
-    const { sw, ne } = bounds;
-    return await nativeImpl.geocodeAddressWithBounds(
-      address,
-      sw.lat,
-      sw.lng,
-      ne.lat,
-      ne.lng
-    );
   } catch (err) {
-    assertFallbackToGoogle(err);
-    return geocodeAddressGoogle(address, bounds);
+    if (options.fallbackToGoogle) {
+      return geocodeAddressGoogle(address, options);
+    }
+    throw new Error('Native Error: ' + err?.message || 'Unknown Execption.');
   }
 }
 
-// Test-only
-function resetModule() {
-  inited = false;
-  apiKey = '';
-  locale = 'en';
-  fallbackToGoogle = false;
-  forceGoogleOnIos = false;
-  maxResults = 5;
-}
-
 export default {
-  init,
   geocodePosition,
   geocodePositionGoogle,
   geocodeAddress,
   geocodeAddressGoogle,
-  resetModule,
 };

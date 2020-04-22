@@ -9,6 +9,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
+import { geocoder as conf } from '../env.json';
 import Geocoder from '../..';
 
 export default function App() {
@@ -25,10 +26,13 @@ export default function App() {
   function geocodePosition() {
     setResult('');
     setError('');
-    Geocoder.geocodePosition({
-      lat: Number(lat),
-      lng: Number(lng),
-    })
+    Geocoder.geocodePosition(
+      {
+        lat: Number(lat),
+        lng: Number(lng),
+      },
+      conf
+    )
       .then(setResult)
       .catch(setError);
   }
@@ -43,7 +47,7 @@ export default function App() {
             sw: { lat: Number(swLat), lng: Number(swLng) },
             ne: { lat: Number(neLat), lng: Number(neLng) },
           };
-    Geocoder.geocodeAddress(addr, bounds)
+    Geocoder.geocodeAddress(addr, { ...conf, bounds })
       .then(setResult)
       .catch(setError);
   }
