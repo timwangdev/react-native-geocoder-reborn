@@ -126,5 +126,8 @@
       "module",
       "typescript"
     ]
+  },
+  "dependencies": {
+    "use-deep-compare-effect": "^1.3.1"
   }
 }

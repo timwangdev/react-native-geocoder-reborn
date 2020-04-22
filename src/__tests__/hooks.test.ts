@@ -1,18 +1,17 @@
 import { renderHook } from '@testing-library/react-hooks';
-import {
-  useGeocodePosition,
-  useGeocodeAddress,
-  useGeocodeAddressWithBounds,
-} from '../hooks';
+import { useGeocodePosition, useGeocodeAddress } from '../hooks';
 
 jest.mock('../geocoder', () => ({
   geocodePosition: jest.fn(pos => pos),
-  geocodeAddress: jest.fn((addr, bounds) => ({ addr, bounds })),
+  geocodeAddress: jest.fn((addr, options) => ({
+    addr,
+    bounds: options?.bounds,
+  })),
 }));
 
 it('should call geocoder geocodePosition with useGeocodePosition', async () => {
   let { result, waitForNextUpdate } = renderHook(() =>
-    useGeocodePosition(10, -20)
+    useGeocodePosition({ lat: 10, lng: -20 })
   );
   await waitForNextUpdate();
   expect(result.current).toEqual({
@@ -34,9 +33,11 @@ it('should call geocoder geocodeAddress with useGeocodeAddress', async () => {
   });
 });
 
-it('should call geocoder geocodeAddress with useGeocodeAddressWithBounds', async () => {
+it('should call geocoder geocodeAddress with bounds', async () => {
   let { result, waitForNextUpdate } = renderHook(() =>
-    useGeocodeAddressWithBounds('London', 10, -20, -20, 10)
+    useGeocodeAddress('London', {
+      bounds: { sw: { lat: 10, lng: -20 }, ne: { lat: -20, lng: 10 } },
+    })
   );
   await waitForNextUpdate();
   expect(result.current).toEqual({
