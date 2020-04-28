@@ -20,12 +20,15 @@ export default function App() {
   let [swLng, setSwLng] = React.useState('');
   let [neLat, setNeLat] = React.useState('');
   let [neLng, setNeLng] = React.useState('');
-  let [result, setResult] = React.useState({});
-  let [error, setError] = React.useState({});
+  let [cLat, setCLat] = React.useState('');
+  let [cLng, setCLng] = React.useState('');
+  let [radius, setRadius] = React.useState('');
+  let [result, setResult] = React.useState(null);
+  let [error, setError] = React.useState(null);
 
   function geocodePosition() {
-    setResult('');
-    setError('');
+    setResult(null);
+    setError(null);
     Geocoder.geocodePosition(
       {
         lat: Number(lat),
@@ -34,12 +37,15 @@ export default function App() {
       conf
     )
       .then(setResult)
-      .catch(setError);
+      .catch(e => {
+        setError(e && e.message);
+        console.warn(e);
+      });
   }
 
   function geocodeAddress() {
-    setResult('');
-    setError('');
+    setResult(null);
+    setError(null);
     let bounds =
       swLat === ''
         ? undefined
@@ -47,9 +53,19 @@ export default function App() {
             sw: { lat: Number(swLat), lng: Number(swLng) },
             ne: { lat: Number(neLat), lng: Number(neLng) },
           };
-    Geocoder.geocodeAddress(addr, { ...conf, bounds })
+    let regionIos =
+      cLat === ''
+        ? undefined
+        : {
+            center: { lat: cLat, lng: cLng },
+            radius,
+          };
+    Geocoder.geocodeAddress(addr, { ...conf, bounds, regionIos })
       .then(setResult)
-      .catch(setError);
+      .catch(e => {
+        setError(e && e.message);
+        console.warn(e);
+      });
   }
 
   return (
@@ -86,6 +102,16 @@ export default function App() {
             style={styles.input}
             value={neLng}
             onChangeText={setNeLng}
+          />
+          <Text>Input Center Latitude</Text>
+          <TextInput style={styles.input} value={cLat} onChangeText={setCLat} />
+          <Text>Input Center Longitude</Text>
+          <TextInput style={styles.input} value={cLng} onChangeText={setCLng} />
+          <Text>Input Search Radius (km)</Text>
+          <TextInput
+            style={styles.input}
+            value={radius}
+            onChangeText={setRadius}
           />
           <Button title="Geocode Address" onPress={geocodeAddress} />
           <Text>Success Output:</Text>

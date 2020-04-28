@@ -22,7 +22,7 @@
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
-                  locale:(NSString *)locale
+                  locale:(NSLocale *)locale
                   maxResult:(int)maxResult
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -56,7 +56,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 }
 
 RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
-                  locale:(NSString *)locale
+                  locale:(NSLocale *)locale
                   maxResult:(int)maxResult
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -90,7 +90,7 @@ RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
                   lat:(double)lat
                   lng:(double)lng
                   radius:(double)radius
-                  locale:(NSString *)locale
+                  locale:(NSLocale *)locale
                   maxResult:(int)maxResult
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)

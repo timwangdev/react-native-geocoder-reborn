@@ -5,7 +5,7 @@
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
-  "react-native": "src/index.tsx",
+  "react-native": "src/index.ts",
   "files": [
     "src",
     "lib",
@@ -40,6 +40,7 @@
     "@react-native-community/bob": "^0.10.0",
     "@react-native-community/eslint-config": "^0.0.7",
     "@release-it/conventional-changelog": "^1.1.0",
+    "@testing-library/react-hooks": "^3.2.1",
     "@types/jest": "^25.1.2",
     "@types/react": "^16.9.19",
     "@types/react-native": "0.61.10",
@@ -89,7 +90,10 @@
       ]
     }
   },
-  "eslintIgnore": ["node_modules/", "lib/"],
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
   "prettier": {
     "singleQuote": true,
     "tabWidth": 2,
@@ -116,6 +120,13 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  },
+  "dependencies": {
+    "use-deep-compare-effect": "^1.3.1"
   }
 }
