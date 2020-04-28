@@ -1,4 +1,4 @@
-package com.reactnativecommunity.geocoder
+package com.timwangdev.reactnativegeocoder
 
 import java.util.Arrays
 import java.util.Collections
@@ -9,7 +9,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 import com.facebook.react.bridge.JavaScriptModule
 
-class RNGeocoderPackage : ReactPackage {
+class GeocoderPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         return Arrays.asList<NativeModule>(GeocoderModule(reactContext))
     }
