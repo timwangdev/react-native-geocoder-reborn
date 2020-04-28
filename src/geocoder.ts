@@ -69,7 +69,15 @@ async function geocodePosition(
   }
 
   try {
-    return await nativeImpl.geocodePosition(position);
+    if (Platform.OS === 'android') {
+      return await nativeImpl.geocodePositionAndroid(position, options);
+    } else {
+      return await nativeImpl.geocodePosition(
+        position,
+        options.locale || defaultOptions.locale,
+        options.maxResults || defaultOptions.maxResults
+      );
+    }
   } catch (err) {
     if (options.fallbackToGoogle) {
       return geocodePositionGoogle(position, options);
@@ -82,7 +90,6 @@ async function geocodeAddress(
   address: string,
   options: GeocoderOptions = {}
 ): Promise<GeocodingObject[]> {
-  let { bounds, regionIos } = options;
   if (!address) {
     throw new Error('Invalid Address: `string` is required');
   }
@@ -102,28 +109,25 @@ async function geocodeAddress(
   }
 
   try {
-    if (regionIos && Platform.OS === 'ios') {
+    if (Platform.OS === 'ios' && options.regionIos) {
       // Use round region query for iOS
-      let { center, radius } = regionIos;
+      let { center, radius } = options.regionIos;
       return await nativeImpl.geocodeAddressInRegion(
         address,
         center.lat,
         center.lng,
-        radius
+        radius,
+        options.locale || defaultOptions.locale,
+        options.maxResults || defaultOptions.maxResults
       );
-    } else if (bounds) {
-      // Use rectangle bounds for Android
-      let { sw, ne } = bounds;
-      return await nativeImpl.geocodeAddressWithBounds(
-        address,
-        sw.lat,
-        sw.lng,
-        ne.lat,
-        ne.lng
-      );
+    } else if (Platform.OS === 'android') {
+      return await nativeImpl.geocodeAddressAndroid(address, options);
     } else {
-      // Normal query
-      return await nativeImpl.geocodeAddress(address);
+      return await nativeImpl.geocodeAddress(
+        address,
+        options.locale || defaultOptions.locale,
+        options.maxResults || defaultOptions.maxResults
+      );
     }
   } catch (err) {
     if (options.fallbackToGoogle) {

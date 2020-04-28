@@ -23,28 +23,7 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
   }
 
   @ReactMethod
-  fun geocodeAddress(addressName: String, config: ReadableMap, promise: Promise) {
-    val localeStr = config.getString("locale")
-    if (localeStr != null && !locale.equals(Locale(localeStr))) {
-      locale = Locale(localeStr)
-      geocoder = Geocoder(getReactApplicationContext(), locale)
-    }
-    var maxResults = config.getInt("maxResults")
-    if (maxResults <= 0) maxResults = 5;
-    try {
-      val addresses = geocoder.getFromLocationName(addressName, maxResults)
-      if (addresses != null && addresses.size > 0) {
-        promise.resolve(transform(addresses))
-      } else {
-        promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.")
-      }
-    } catch (e: Exception) {
-      promise.reject("NATIVE_ERROR", e)
-    }
-  }
-
-  @ReactMethod
-  fun geocodeAddressWithBounds(addressName: String, config: ReadableMap, promise: Promise) {
+  fun geocodeAddressAndroid(addressName: String, config: ReadableMap, promise: Promise) {
     val bounds = config.getMap("bounds")
     val swLat = bounds?.getDouble("swLat")
     val swLng = bounds?.getDouble("swLng")
@@ -57,24 +36,25 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
     }
     var maxResults = config.getInt("maxResults")
     if (maxResults <= 0) maxResults = 5;
-    if (swLat != null && swLng != null && neLat != null && neLng != null) {
-      try {
-        val addresses = geocoder.getFromLocationName(addressName, maxResults, swLat, swLng, neLat, neLng)
-        if (addresses != null && addresses.size > 0) {
-          promise.resolve(transform(addresses))
-        } else {
-          promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.")
-        }
-      } catch (e: Exception) {
-        promise.reject("NATIVE_ERROR", e)
+    try {
+      val addresses: MutableList<Address>
+      if (swLat != null && swLng != null && neLat != null && neLng != null) {
+        addresses = geocoder.getFromLocationName(addressName, maxResults, swLat, swLng, neLat, neLng)
+      } else {
+        addresses = geocoder.getFromLocationName(addressName, maxResults)
       }
-    } else {
-      promise.reject("WRONG_PARAMS", "Invalid bounds config.")
+      if (addresses != null && addresses.size > 0) {
+        promise.resolve(transform(addresses))
+      } else {
+        promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.")
+      }
+    } catch (e: Exception) {
+      promise.reject("NATIVE_ERROR", e)
     }
   }
 
   @ReactMethod
-  fun geocodePosition(position: ReadableMap, config: ReadableMap, promise: Promise) {
+  fun geocodePositionAndroid(position: ReadableMap, config: ReadableMap, promise: Promise) {
     val localeStr = config.getString("locale")
     if (localeStr != null && !locale.equals(Locale(localeStr))) {
       locale = Locale(localeStr)
@@ -84,11 +64,7 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
     if (maxResults <= 0) maxResults = 5;
     try {
       val addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults)
-      if (addresses != null && addresses.size > 0) {
-        promise.resolve(transform(addresses))
-      } else {
-        promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.")
-      }
+
     } catch (e: Exception) {
       promise.reject("NATIVE_ERROR", e)
     }

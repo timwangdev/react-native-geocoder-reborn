@@ -8,7 +8,7 @@ export interface Bounds {
   ne: Position;
 }
 
-export interface Region {
+export interface CircularRegion {
   center: Position;
 
   // Unit: km
@@ -49,7 +49,7 @@ export interface GeocoderOptions {
   bounds?: Bounds;
   locale?: string;
   maxResults?: number;
-  regionIos?: Region;
+  regionIos?: CircularRegion;
   fallbackToGoogle?: boolean;
   forceGoogleOnIos?: boolean;
 }

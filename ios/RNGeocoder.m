@@ -9,6 +9,7 @@
 + (CLLocation *)CLLocation:(id)json
 {
     json = [self NSDictionary:json];
+
     double lat = [RCTConvert double:json[@"lat"]];
     double lng = [RCTConvert double:json[@"lng"]];
     return [[CLLocation alloc] initWithLatitude:lat longitude:lng];
@@ -79,7 +80,7 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
     };
 
     if (@available(iOS 11.0, *)) {
-        [self.geocoder geocodeAddressString:address inRegion:nil preferredLocale:locale  completionHandler:handler];
+        [self.geocoder geocodeAddressString:address inRegion:nil preferredLocale:locale completionHandler:handler];
     } else {
         [self.geocoder geocodeAddressString:address completionHandler:handler];
     }
@@ -101,7 +102,7 @@ RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
     if (self.geocoder.geocoding) {
       [self.geocoder cancelGeocode];
     }
-    
+
     CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lng);
     CLRegion* region = [[CLCircularRegion alloc] initWithCenter:center radius:radius identifier:@"Search Radius"];
 

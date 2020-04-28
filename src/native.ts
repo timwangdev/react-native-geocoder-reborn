@@ -1,24 +1,38 @@
 import { NativeModules } from 'react-native';
-import { GeocodingObject, Position } from './types';
+import { GeocodingObject, Position, GeocoderOptions } from './types';
 
 const { RNGeocoder: nativeGeocoder } = NativeModules;
 
 interface NativeImpl {
-  init: (locale: string, maxResults: number) => Promise<void>;
-  geocodePosition: (position: Position) => Promise<GeocodingObject[]>;
-  geocodeAddress: (address: string) => Promise<GeocodingObject[]>;
-  geocodeAddressWithBounds: (
-    address: string,
-    swLat: number,
-    swLng: number,
-    neLat: number,
-    neLng: number
+  geocodePosition: (
+    position: Position,
+    locale: string,
+    maxResult: number
   ) => Promise<GeocodingObject[]>;
+
+  geocodeAddress: (
+    address: string,
+    locale: string,
+    maxResult: number
+  ) => Promise<GeocodingObject[]>;
+
   geocodeAddressInRegion: (
     address: string,
     lat: number,
     lng: number,
-    radius: number
+    radius: number,
+    locale: string,
+    maxResult: number
+  ) => Promise<GeocodingObject[]>;
+
+  geocodePositionAndroid: (
+    position: Position,
+    config: GeocoderOptions
+  ) => Promise<GeocodingObject[]>;
+
+  geocodeAddressAndroid: (
+    address: string,
+    config: GeocoderOptions
   ) => Promise<GeocodingObject[]>;
 }
 

@@ -24,7 +24,7 @@ describe('geocode position', () => {
   it('should call native function with position', async () => {
     let position = { lat: -1.2, lng: 3.4 };
     await geocoder.geocodePosition(position);
-    expect(nativeImpl.geocodePosition).toBeCalledWith(position);
+    expect(nativeImpl.geocodePosition).toBeCalledWith(position, 'en', 5);
   });
 
   it('should throw if native function rejects and fallbackToGoogle is not set', async () => {
@@ -51,19 +51,6 @@ describe('geocode address', () => {
     expect(geocoder.geocodeAddress('')).rejects.toThrowError();
   });
 
-  it('should call native function with address and bounds', async () => {
-    let address = 'Birmingham';
-    let bounds = { sw: { lat: 40, lng: -20 }, ne: { lat: 60, lng: 10 } };
-    await geocoder.geocodeAddress(address, { bounds });
-    expect(nativeImpl.geocodeAddressWithBounds).toBeCalledWith(
-      address,
-      40,
-      -20,
-      60,
-      10
-    );
-  });
-
   it('should throw if native function rejects and fallbackToGoogle is not set', async () => {
     nativeImpl.geocodeAddress = () => Promise.reject(new Error('NO IMPL'));
     let address = 'London';
@@ -86,8 +73,7 @@ describe('geocode address', () => {
   });
 
   it('should call googleApi function with address and bounds', async () => {
-    nativeImpl.geocodeAddressWithBounds = () =>
-      Promise.reject(new Error('NO IMPL'));
+    nativeImpl.geocodeAddress = () => Promise.reject(new Error('NO IMPL'));
     let address = 'London';
     let bounds = { sw: { lat: 40, lng: -20 }, ne: { lat: 60, lng: 10 } };
     let options = {

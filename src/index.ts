@@ -3,11 +3,11 @@ import { useGeocodePosition, useGeocodeAddress } from './hooks';
 import {
   Position,
   Bounds,
-  Region,
+  CircularRegion,
   GeocoderOptions,
   GeocodingObject,
 } from './types';
 
-export { Position, Bounds, Region, GeocoderOptions, GeocodingObject };
+export { Position, Bounds, CircularRegion, GeocoderOptions, GeocodingObject };
 export { useGeocodePosition, useGeocodeAddress };
 export default geocoder;
