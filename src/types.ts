@@ -15,6 +15,8 @@ export interface CircularRegion {
   radius: number;
 }
 
+export type RequestHeaders = { [key: string]: string };
+
 export interface GeocodingObject {
   position: Position;
 
@@ -52,4 +54,5 @@ export interface GeocoderOptions {
   regionIos?: CircularRegion;
   fallbackToGoogle?: boolean;
   forceGoogleOnIos?: boolean;
+  requestHeaders?: RequestHeaders;
 }

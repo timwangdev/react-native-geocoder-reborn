@@ -25,7 +25,8 @@ async function geocodePositionGoogle(
 ) {
   let apiKey = getApiKey(options.apiKey);
   let locale = options.locale || defaultOptions.locale;
-  return googleApi.geocodePosition(apiKey, position, locale);
+  let headers = options.requestHeaders;
+  return googleApi.geocodePosition(apiKey, position, locale, headers);
 }
 
 async function geocodeAddressGoogle(
@@ -34,16 +35,18 @@ async function geocodeAddressGoogle(
 ) {
   let apiKey = getApiKey(options.apiKey);
   let locale = options.locale || defaultOptions.locale;
+  let headers = options.requestHeaders;
   if (options.bounds) {
     // Use rectangle bounds for Google Maps api
     return googleApi.geocodeAddressWithBounds(
       apiKey,
       address,
       options.bounds,
-      locale
+      locale,
+      headers
     );
   }
-  return googleApi.geocodeAddress(apiKey, address, locale);
+  return googleApi.geocodeAddress(apiKey, address, locale, headers);
 }
 
 async function geocodePosition(

@@ -97,17 +97,17 @@ public class MainActivity extends ReactActivity {
 import Geocoder from '@timwangdev/react-native-geocoder';
 
 try {
-    ...
-    const position = { lat: 1.2, lng: -3.4 };
-    await Geocoder.geocodePosition(position);
-    ...
-    await Geocoder.geocodeAddress('Paris', {
-      locale: 'fr',
-      maxResult: 2
-    });
-    ...
+  ...
+  const position = { lat: 1.2, lng: -3.4 };
+  await Geocoder.geocodePosition(position);
+  ...
+  await Geocoder.geocodeAddress('Paris', {
+    locale: 'fr',
+    maxResult: 2,
+  });
+  ...
 } catch(err) {
-    console.log(err);
+  ...
 }
 ```
 
@@ -134,7 +134,7 @@ try {
   // Your Google Maps API key, required if when `fallbackToGoogle` or `forceGoogleOnIos` is set.
   apiKey?: string;
 
-  // Preferred Locale for outputs, defaults to 'en'
+  // Preferred Locale for outputs, defaults to 'en'.
   locale?: string;
 
   // (Not available for Google Maps) Maximum returned results, defaults to 5
@@ -157,9 +157,16 @@ try {
 
   // Should always use Google Maps API on iOS, defaults to false.
   forceGoogleOnIos?: boolean;
+
+  // Custom headers when sending Google Maps API requests.
+  requestHeaders?: { [key: string]: string };
 }
 ```
-Note: Platforms may have different implantations for locale preference. Here is [Google Maps API supported language list](https://developers.google.com/maps/faq#languagesupport).
+#### Note:
+
+1. Platforms may have different implantations for locale preference. Here is [Google Maps API supported language list](https://developers.google.com/maps/faq#languagesupport).
+
+2. `requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).
 
 ### `GeocodingObject`
 

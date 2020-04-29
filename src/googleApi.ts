@@ -1,9 +1,9 @@
-import { Position, Bounds, GeocodingObject } from './types';
+import { Position, Bounds, GeocodingObject, RequestHeaders } from './types';
 
 const GOOGLE_URL = 'https://maps.google.com/maps/api/geocode/json';
 
-async function geocodeRequest(url: string) {
-  let res = await fetch(url);
+async function geocodeRequest(url: string, headers?: RequestHeaders) {
+  let res = await fetch(url, { headers });
   let json = await res.json();
 
   if (!json.results || json.status !== 'OK') {
@@ -70,17 +70,29 @@ function format(raw: any) {
 }
 
 export default {
-  geocodePosition(apiKey: string, position: Position, language: string) {
+  geocodePosition(
+    apiKey: string,
+    position: Position,
+    language: string,
+    headers?: RequestHeaders
+  ) {
     return geocodeRequest(
-      `${GOOGLE_URL}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`
+      `${GOOGLE_URL}?key=${apiKey}&latlng=${position.lat},${position.lng}&language=${language}`,
+      headers
     );
   },
 
-  geocodeAddress(apiKey: string, address: string, language: string) {
+  geocodeAddress(
+    apiKey: string,
+    address: string,
+    language: string,
+    headers?: RequestHeaders
+  ) {
     return geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(
         address
-      )}&language=${language}`
+      )}&language=${language}`,
+      headers
     );
   },
 
@@ -88,12 +100,14 @@ export default {
     apiKey: string,
     address: string,
     bounds: Bounds,
-    language: string
+    language: string,
+    headers?: RequestHeaders
   ) {
     let { sw, ne } = bounds;
     return geocodeRequest(
       `${GOOGLE_URL}?key=${apiKey}&address=${encodeURI(address)}` +
-        `&bounds=${sw.lat},${sw.lng}|${ne.lat},${ne.lng}&language=${language}`
+        `&bounds=${sw.lat},${sw.lng}|${ne.lat},${ne.lng}&language=${language}`,
+      headers
     );
   },
 };
