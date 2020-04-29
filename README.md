@@ -172,6 +172,8 @@ try {
 
 4. `requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).
 
+5. In order to avoid hitting rate limit or reducing API queries, you could cache the results in your program whenever possible.
+
 ### `GeocodingObject`
 
 ```typescript
