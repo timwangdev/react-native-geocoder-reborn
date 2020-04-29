@@ -2,5 +2,5 @@ rootProject.name = 'GeocoderExample'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 
-include ':reactnativecommunitygeocoder'
-project(':reactnativecommunitygeocoder').projectDir = new File(rootProject.projectDir, '../../android')
+include ':react-native-geocoder'
+project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../../android')

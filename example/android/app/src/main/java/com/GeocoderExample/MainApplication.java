@@ -10,7 +10,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import com.reactnativecommunity.geocoder.GeocoderPackage;
+import com.timwangdev.reactnativegeocoder.GeocoderPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
