@@ -207,20 +207,6 @@ try {
 }
 ```
 
-### React Hooks Support
-
-```js
-import { useGeocodeAddress, useGeocodePosition } from '@timwangdev/react-native-geocoder';
-```
-
-* `useGeocodeAddress(address: string, options?: GeocoderOptions)`
-
-  Returns `{ result: GeocodingObject[], error: Error, loading: boolean }`
-
-* `useGeocodePosition(position: { lat: number, lng: number }, options?: GeocoderOptions)`
-
-  Returns `{ result: GeocodingObject[], error: Error, loading: boolean }`
-
 ## License
 
 MIT
