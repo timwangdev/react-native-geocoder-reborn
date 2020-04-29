@@ -7,7 +7,7 @@ let defaultOptions = {
   locale: 'en',
   fallbackToGoogle: false,
   forceGoogleOnIos: false,
-  maxResults: 5,
+  maxResults: 2,
 };
 
 function getApiKey(apiKey?: string) {
