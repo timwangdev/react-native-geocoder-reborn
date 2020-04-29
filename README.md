@@ -131,42 +131,46 @@ try {
 
 ```typescript
 {
-  // Your Google Maps API key, required if when `fallbackToGoogle` or `forceGoogleOnIos` is set.
+  // Your Google Maps API key, required if when `fallbackToGoogle` or `forceGoogleOnIos` is set. Make sure Geocoding API is enabled.
   apiKey?: string;
 
-  // Preferred Locale for outputs, defaults to 'en'.
+  // Preferred Locale for outputs, defaults to 'en'. (See Note 1)
   locale?: string;
 
   // (Not available for Google Maps) Maximum returned results, defaults to 5
   maxResults?: number;
 
-  // (Android and Google only) Set the bounds for address geocoding.
+  // (Android and Google only) Set the bounds for address geocoding. (See Note 2)
   bounds?: {
     sw: { lat: number, lng: number }, // Lower left corner
     ne: { lat: number, lng: number }, // Upper right corner
   };
 
-  // (iOS native only) Set circular region for address geocoding.
+  // (iOS native only) Set circular region for address geocoding. (See Note 2)
   regionIos?: {
     center: { lat: number, lng: number }, // Center of the circular region
-    radius: number, // Radius of the circular region, unit: km
+    radius: number, // Radius of the circular region. Unit: km
   };;
 
   // Should use Google Maps API if native query fails, defaults to false.
   fallbackToGoogle?: boolean;
 
-  // Should always use Google Maps API on iOS, defaults to false.
+  // Should always use Google Maps API on iOS, defaults to false. (See Note 3)
   forceGoogleOnIos?: boolean;
 
-  // Custom headers when sending Google Maps API requests.
+  // Custom headers when sending Google Maps API requests. (See Note 4)
   requestHeaders?: { [key: string]: string };
 }
 ```
-#### Note:
+#### Notes:
 
 1. Platforms may have different implantations for locale preference. Here is [Google Maps API supported language list](https://developers.google.com/maps/faq#languagesupport).
 
-2. `requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).
+2. On iOS the preferred search boundary for address geocoding only support "circular" region, while on Android and Google Maps API it using "rectangular" bounds. `regionIos` will have no effect if `forceGoogleOnIos` is `true`.
+
+3. Use `forceGoogleOnIos` if you want consistent result on both iOS and Android platform, due to the limitation of iOS native implantation.
+
+4. `requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).
 
 ### `GeocodingObject`
 
