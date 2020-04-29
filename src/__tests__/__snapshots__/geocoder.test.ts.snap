@@ -79,7 +79,7 @@ exports[`geocode position should call native function with position 1`] = `
         "lng": 3.4,
       },
       "en",
-      5,
+      2,
     ],
   ],
   "results": Array [
