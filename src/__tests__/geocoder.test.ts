@@ -24,7 +24,7 @@ describe('geocode position', () => {
   it('should call native function with position', async () => {
     let position = { lat: -1.2, lng: 3.4 };
     await geocoder.geocodePosition(position);
-    expect(nativeImpl.geocodePosition).toBeCalledWith(position, 'en', 5);
+    expect(nativeImpl.geocodePosition).toMatchSnapshot();
   });
 
   it('should throw if native function rejects and fallbackToGoogle is not set', async () => {
@@ -42,7 +42,7 @@ describe('geocode position', () => {
       locale: 'de',
     };
     await geocoder.geocodePosition(position, options);
-    expect(googleApi.geocodePosition).toBeCalledWith('TEST', position, 'de');
+    expect(googleApi.geocodePosition).toMatchSnapshot();
   });
 });
 
@@ -69,7 +69,7 @@ describe('geocode address', () => {
       locale: 'en',
     };
     await geocoder.geocodeAddress(address, options);
-    expect(googleApi.geocodeAddress).toBeCalledWith('TEST', address, 'en');
+    expect(googleApi.geocodeAddress).toMatchSnapshot();
   });
 
   it('should call googleApi function with address and bounds', async () => {
@@ -83,11 +83,6 @@ describe('geocode address', () => {
       bounds,
     };
     await geocoder.geocodeAddress(address, options);
-    expect(googleApi.geocodeAddressWithBounds).toBeCalledWith(
-      'TEST',
-      address,
-      bounds,
-      'en'
-    );
+    expect(googleApi.geocodeAddressWithBounds).toMatchSnapshot();
   });
 });

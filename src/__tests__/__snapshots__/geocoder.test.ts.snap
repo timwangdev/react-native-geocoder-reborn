@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`geocode address should call googleApi function with address and bounds 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "TEST",
+      "London",
+      Object {
+        "ne": Object {
+          "lat": 60,
+          "lng": 10,
+        },
+        "sw": Object {
+          "lat": 40,
+          "lng": -20,
+        },
+      },
+      "en",
+      undefined,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`geocode address should call googleApi function with address if fallbackToGoogle is set and native fails 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "TEST",
+      "London",
+      "en",
+      undefined,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`geocode position should call googleApi function with position if fallbackToGoogle is set and native fails 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      "TEST",
+      Object {
+        "lat": -1.2,
+        "lng": 3.4,
+      },
+      "de",
+      undefined,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`geocode position should call native function with position 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "lat": -1.2,
+        "lng": 3.4,
+      },
+      "en",
+      5,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
