@@ -167,8 +167,8 @@ try {
   // Should always use Google Maps API on iOS, defaults to false. (See Note 4)
   forceGoogleOnIos?: boolean;
 
-  // Custom headers when sending Google Maps API requests. (See Note 5)
-  requestHeaders?: { [key: string]: string };
+  // (DEPRECATED) Custom headers when sending Google Maps API requests. (See Note 5)
+  // requestHeaders?: { [key: string]: string };
 }
 ```
 #### Notes:
@@ -181,7 +181,7 @@ try {
 
 3. Use `forceGoogleOnIos` if you want consistent result on both iOS and Android platform, due to the limitation of iOS native implantation.
 
-4. `requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).
+4. <del>`requestHeaders` is useful together with Google API credentials restrictions by setting the `Referer` header. See [#20](https://github.com/timwangdev/react-native-geocoder-reborn/issues/20).</del>
 
 5. In order to avoid hitting rate limit or reducing API queries, you should cache the results in your program whenever possible.
 
