@@ -64,7 +64,11 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
     if (maxResults <= 0) maxResults = 5;
     try {
       val addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults)
-
+      if (addresses != null && addresses.size > 0) {
+        promise.resolve(transform(addresses))
+      } else {
+        promise.reject("EMPTY_RESULT", "Geocoder returned an empty list.")
+      }
     } catch (e: Exception) {
       promise.reject("NATIVE_ERROR", e)
     }
