@@ -64,7 +64,7 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
     if (maxResults <= 0) maxResults = 5;
     try {
       val addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults)
-
+      promise.resolve(transform(addresses))
     } catch (e: Exception) {
       promise.reject("NATIVE_ERROR", e)
     }
