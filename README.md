@@ -4,7 +4,10 @@ Multi-platform Geocoding library for React Native apps.
 
 [![CircleCI](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master.svg?style=shield)](https://circleci.com/gh/timwangdev/react-native-geocoder-reborn/tree/master)
 [![npm](https://img.shields.io/npm/v/@timwangdev/react-native-geocoder.svg)](https://www.npmjs.com/package/@timwangdev/react-native-geocoder)
-[![Downloads](https://img.shields.io/npm/dw/@timwangdev/react-native-geocoder.svg)](https://www.npmjs.com/package/@timwangdev/react-native-geocoder)
+
+v1.x [![Downloads](https://img.shields.io/npm/dw/@timwangdev/react-native-geocoder.svg)](https://www.npmjs.com/package/@timwangdev/react-native-geocoder) / 
+v0.x [![Downloads](https://img.shields.io/npm/dw/react-native-geocoder-reborn.svg)](https://www.npmjs.com/package/react-native-geocoder-reborn)
+
 
 The project is originally forked from [devfd/react-native-geocoder](https://github.com/devfd/react-native-geocoder). Since 1.0 the project have been refactored and supports more features includes web support, maximum results limit, search boundary and request headers for Google Maps API.
 
