@@ -24,18 +24,22 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
   @ReactMethod
   fun geocodeAddressAndroid(addressName: String, config: ReadableMap, promise: Promise) {
-    val bounds = config.getMap("bounds")
+    val bounds: ReadableMap? = if (config.hasKey("bounds")) {
+      config.getMap("bounds")
+    } else null
+
     val swLat = bounds?.getDouble("swLat")
     val swLng = bounds?.getDouble("swLng")
     val neLat = bounds?.getDouble("neLat")
     val neLng = bounds?.getDouble("neLng")
-    val localeStr = config.getString("locale")
+    val localeStr = if (config.hasKey("locale")) config.getString("locale") else null
+
     if (localeStr != null && !locale.equals(Locale(localeStr))) {
       locale = Locale(localeStr)
-      geocoder = Geocoder(getReactApplicationContext(), locale)
+      geocoder = Geocoder(reactApplicationContext, locale)
     }
-    var maxResults = config.getInt("maxResults")
-    if (maxResults <= 0) maxResults = 5;
+    var maxResults = if (config.hasKey("maxResults")) config.getInt("maxResults") else -1
+    if (maxResults <= 0) maxResults = 5
     try {
       val addresses: MutableList<Address>
       if (swLat != null && swLng != null && neLat != null && neLng != null) {
