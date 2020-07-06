@@ -36,7 +36,7 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
     if (localeStr != null && !locale.equals(Locale(localeStr))) {
       locale = Locale(localeStr)
-      geocoder = Geocoder(reactApplicationContext, locale)
+      geocoder = Geocoder(getReactApplicationContext(), locale)
     }
     var maxResults = if (config.hasKey("maxResults")) config.getInt("maxResults") else -1
     if (maxResults <= 0) maxResults = 5
@@ -59,12 +59,12 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
   @ReactMethod
   fun geocodePositionAndroid(position: ReadableMap, config: ReadableMap, promise: Promise) {
-    val localeStr = config.getString("locale")
+    val localeStr = if (config.hasKey("locale")) config.getString("locale") else null
     if (localeStr != null && !locale.equals(Locale(localeStr))) {
       locale = Locale(localeStr)
       geocoder = Geocoder(getReactApplicationContext(), locale)
     }
-    var maxResults = config.getInt("maxResults")
+    var maxResults = if (config.hasKey("maxResults")) config.getInt("maxResults") else -1
     if (maxResults <= 0) maxResults = 5;
     try {
       val addresses = geocoder.getFromLocation(position.getDouble("lat"), position.getDouble("lng"), maxResults)
