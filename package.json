@@ -11,7 +11,7 @@
     "lib",
     "android",
     "ios",
-    "reactnativegeocoder.podspec"
+    "react-native-geocoder.podspec"
   ],
   "scripts": {
     "test": "jest",
