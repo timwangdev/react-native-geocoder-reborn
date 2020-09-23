@@ -57,8 +57,8 @@ export default function App() {
       cLat === ''
         ? undefined
         : {
-            center: { lat: cLat, lng: cLng },
-            radius,
+            center: { lat: Number(cLat), lng: Number(cLng) },
+            radius: Number(radius),
           };
     Geocoder.geocodeAddress(addr, { ...conf, bounds, regionIos })
       .then(setResult)
