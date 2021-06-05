@@ -58,12 +58,12 @@ async function geocodePosition(
   }
 
   if (options.forceGoogleOnIos && Platform.OS === 'ios') {
-    return geocodePositionGoogle(position);
+    return geocodePositionGoogle(position, options);
   }
 
   if (nativeImpl == null) {
     if (options.fallbackToGoogle) {
-      return geocodePositionGoogle(position);
+      return geocodePositionGoogle(position, options);
     }
     throw new Error(
       'Missing Native Module: Please check the module linking, ' +
@@ -98,7 +98,7 @@ async function geocodeAddress(
   }
 
   if (options.forceGoogleOnIos && Platform.OS === 'ios') {
-    return geocodeAddressGoogle(address);
+    return geocodeAddressGoogle(address, options);
   }
 
   if (nativeImpl == null) {
