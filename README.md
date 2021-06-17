@@ -109,7 +109,7 @@ try {
   ...
   await Geocoder.geocodeAddress('Paris', {
     locale: 'fr',
-    maxResult: 2,
+    maxResults: 2,
   });
   ...
 } catch(err) {

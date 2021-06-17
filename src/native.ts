@@ -7,13 +7,13 @@ interface NativeImpl {
   geocodePosition: (
     position: Position,
     locale: string,
-    maxResult: number
+    maxResults: number
   ) => Promise<GeocodingObject[]>;
 
   geocodeAddress: (
     address: string,
     locale: string,
-    maxResult: number
+    maxResults: number
   ) => Promise<GeocodingObject[]>;
 
   geocodeAddressInRegion: (
@@ -22,7 +22,7 @@ interface NativeImpl {
     lng: number,
     radius: number,
     locale: string,
-    maxResult: number
+    maxResults: number
   ) => Promise<GeocodingObject[]>;
 
   geocodePositionAndroid: (
