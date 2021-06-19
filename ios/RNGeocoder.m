@@ -23,7 +23,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
                   locale:(NSLocale *)locale
-                  maxResult:(int)maxResult
+                  maxResults:(int)maxResults
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -43,7 +43,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 
             return reject(@"NATIVE_ERROR", @"geocodePosition failed.", error);
         }
-        resolve([self placemarksToDictionary:placemarks maxResult:maxResult]);
+        resolve([self placemarksToDictionary:placemarks maxResults:maxResults]);
     };
 
     if (@available(iOS 11.0, *)) {
@@ -57,7 +57,7 @@ RCT_EXPORT_METHOD(geocodePosition:(CLLocation *)location
 
 RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
                   locale:(NSLocale *)locale
-                  maxResult:(int)maxResult
+                  maxResults:(int)maxResults
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -76,7 +76,7 @@ RCT_EXPORT_METHOD(geocodeAddress:(NSString *)address
             }
             return reject(@"NATIVE_ERROR", @"geocodeAddress failed.", error);
         }
-        resolve([self placemarksToDictionary:placemarks maxResult:maxResult]);
+        resolve([self placemarksToDictionary:placemarks maxResults:maxResults]);
     };
 
     if (@available(iOS 11.0, *)) {
@@ -91,7 +91,7 @@ RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
                   lng:(double)lng
                   radius:(double)radius
                   locale:(NSLocale *)locale
-                  maxResult:(int)maxResult
+                  maxResults:(int)maxResults
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -113,7 +113,7 @@ RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
             }
             return reject(@"NATIVE_ERROR", @"geocodeAddressInRegion failed.", error);
         }
-        resolve([self placemarksToDictionary:placemarks maxResult:maxResult]);
+        resolve([self placemarksToDictionary:placemarks maxResults:maxResults]);
     };
 
     if (@available(iOS 11.0, *)) {
@@ -124,12 +124,12 @@ RCT_EXPORT_METHOD(geocodeAddressInRegion:(NSString *)address
 }
 
 - (NSArray *)placemarksToDictionary:(NSArray *)placemarks
-                          maxResult:(int)maxResult{
+                          maxResults:(int)maxResults{
 
     NSMutableArray *results = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < placemarks.count; i++) {
-        if (i == maxResult) {
+        if (i == maxResults) {
             break;
         }
         CLPlacemark* placemark = [placemarks objectAtIndex:i];
