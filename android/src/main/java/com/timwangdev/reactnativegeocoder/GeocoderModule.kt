@@ -28,10 +28,12 @@ class GeocoderModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
       config.getMap("bounds")
     } else null
 
-    val swLat = bounds?.getDouble("swLat")
-    val swLng = bounds?.getDouble("swLng")
-    val neLat = bounds?.getDouble("neLat")
-    val neLng = bounds?.getDouble("neLng")
+    val sw: ReadableMap? = bounds?.getMap("sw")
+    val ne: ReadableMap? = bounds?.getMap("ne")
+    val swLat = sw?.getDouble("lat")
+    val swLng = sw?.getDouble("lng")
+    val neLat = ne?.getDouble("lat")
+    val neLng = ne?.getDouble("lng")
     val localeStr = if (config.hasKey("locale")) config.getString("locale") else null
 
     if (localeStr != null && !locale.equals(Locale(localeStr))) {
