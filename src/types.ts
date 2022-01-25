@@ -4,8 +4,10 @@ export interface Position {
 }
 
 export interface Bounds {
-  sw: Position;
-  ne: Position;
+    swLat: number;
+    swLng: number;
+    neLat: number;
+    neLng: number;
 }
 
 export interface CircularRegion {
