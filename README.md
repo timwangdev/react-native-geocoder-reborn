@@ -148,11 +148,10 @@ try {
 
   // (Android and Google only) Set the bounds for address geocoding. (See Note 3)
   bounds?: {
-    // Lower left corner
-    sw: { lat: number, lng: number },
-
-    // Upper right corner
-    ne: { lat: number, lng: number },
+    swLat: number;
+    swLng: number;
+    neLat: number;
+    neLng: number;
   };
 
   // (iOS native only) Set circular region for address geocoding. (See Note 3)
